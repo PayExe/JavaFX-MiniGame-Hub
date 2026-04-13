@@ -26,7 +26,7 @@ javafx {
 }
 
 application {
-    mainClass = "app.App"
+    mainClass = "dev.skypaolo.App"
 }
 
 tasks.test {
