@@ -19,7 +19,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -45,6 +44,9 @@ public class TrueOrFalseController {
 
     // Le nombre de questions max par partie.
     private final int maxQuestions = 10;
+
+    // Groupe de boutons pour forcer un seul choix entre vrai et faux.
+    private final ToggleGroup answerSelectionGroup = new ToggleGroup();
 
     // Bool de l'état de la partie.
     private boolean gameOver = false;
@@ -118,6 +120,13 @@ public class TrueOrFalseController {
         feedbackLabel
             .getStyleClass()
             .removeAll("feedback-win", "feedback-loss");
+        feedbackLabel.setOpacity(1.0);
+
+        // Associe les deux boutons à un seul groupe pour n'autoriser qu'un seul choix.
+        trueToggle.setToggleGroup(answerSelectionGroup);
+        falseToggle.setToggleGroup(answerSelectionGroup);
+        trueToggle.setSelected(true);
+
         updateQuestionCounter();
         showCurrentQuestion();
         setButtonsEnabled(true);
@@ -177,6 +186,11 @@ public class TrueOrFalseController {
             if (questionIndex >= questionQueue.size()) {
                 endGame();
             } else {
+                feedbackLabel.setText("");
+                feedbackLabel
+                    .getStyleClass()
+                    .removeAll("feedback-win", "feedback-loss");
+                feedbackLabel.setOpacity(0.0);
                 showCurrentQuestion();
             }
         });
@@ -194,6 +208,7 @@ public class TrueOrFalseController {
                 questionQueue.size()
         );
         feedbackLabel.setText("Bravo, tu as terminé la partie !");
+        feedbackLabel.setOpacity(1.0);
         setButtonsEnabled(false);
     }
 
@@ -233,6 +248,11 @@ public class TrueOrFalseController {
             if (questionIndex >= questionQueue.size()) {
                 endGame();
             } else {
+                feedbackLabel.setText("");
+                feedbackLabel
+                    .getStyleClass()
+                    .removeAll("feedback-win", "feedback-loss");
+                feedbackLabel.setOpacity(0.0);
                 showCurrentQuestion();
             }
         }
@@ -262,6 +282,7 @@ public class TrueOrFalseController {
         newQuestionField.clear();
         categoryField.clear();
         trueToggle.setSelected(true);
+        falseToggle.setSelected(false);
 
         feedbackLabel.setText("Question ajoutée avec succès !");
     }

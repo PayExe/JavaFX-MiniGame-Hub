@@ -9,7 +9,7 @@
    ROOT & GLOBAL STYLES
    ============================================ */
 .root {
-    -fx-background-color: #1A1A1A;
+    -fx-background-color: #1a1a1a;
     -fx-font-family: "Segoe UI", "System", sans-serif;
 }
 
@@ -17,23 +17,23 @@
    VAULT-TEC BACKGROUND
    ============================================ */
 .vault-background {
-    -fx-background-color: linear-gradient(to bottom, #1A1A1A, #0D0D0D);
+    -fx-background-color: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
 }
 
 /* ============================================
    HUB HEADER STYLES
    ============================================ */
 .hub-header {
-    -fx-background-color: linear-gradient(to bottom, #2A2A2A, #1A1A1A);
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 0 0 2px 0;
 }
 
 .vault-logo-icon {
     -fx-font-size: 32px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
-    -fx-background-color: #3C8DBC;
+    -fx-text-fill: #ffe600;
+    -fx-background-color: #3c8dbc;
     -fx-padding: 10px 15px;
     -fx-background-radius: 5px;
 }
@@ -41,22 +41,22 @@
 .hub-title {
     -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-text-fill: #3C8DBC;
+    -fx-text-fill: #3c8dbc;
 }
 
 .hub-subtitle {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .hub-welcome {
     -fx-font-size: 14px;
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
 }
 
 .vault-separator {
-    -fx-background-color: #3C8DBC;
+    -fx-background-color: #3c8dbc;
     -fx-padding: 1px 0;
 }
 
@@ -73,16 +73,16 @@
 }
 
 .vault-scroll-pane .scroll-bar:vertical {
-    -fx-background-color: #2A2A2A;
+    -fx-background-color: #2a2a2a;
 }
 
 .vault-scroll-pane .scroll-bar:vertical .thumb {
-    -fx-background-color: #3C8DBC;
+    -fx-background-color: #3c8dbc;
     -fx-background-radius: 5px;
 }
 
 .vault-scroll-pane .scroll-bar:vertical .thumb:hover {
-    -fx-background-color: #4A9DCC;
+    -fx-background-color: #4a9dcc;
 }
 
 /* ============================================
@@ -96,9 +96,9 @@
    MINIGAME CARD STYLES
    ============================================ */
 .minigame-card {
-    -fx-background-color: linear-gradient(to bottom, #2A2A2A, #1F1F1F);
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #1f1f1f);
     -fx-background-radius: 10px;
-    -fx-border-color: #3C8DBC;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 2px;
     -fx-border-radius: 10px;
     -fx-effect: dropshadow(gaussian, rgba(60, 141, 188, 0.3), 10, 0, 0, 0);
@@ -109,13 +109,13 @@
 }
 
 .minigame-card:hover {
-    -fx-border-color: #FFE600;
+    -fx-border-color: #ffe600;
     -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.5), 15, 0, 0, 0);
     -fx-cursor: hand;
 }
 
 .card-image-container {
-    -fx-background-color: #0D0D0D;
+    -fx-background-color: #0d0d0d;
     -fx-background-radius: 5px;
     -fx-padding: 5px;
     -fx-border-color: #444444;
@@ -126,13 +126,13 @@
 .card-title {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
     -fx-alignment: center;
 }
 
 .card-description {
     -fx-font-size: 12px;
-    -fx-text-fill: #AAAAAA;
+    -fx-text-fill: #aaaaaa;
     -fx-alignment: center;
 }
 
@@ -140,7 +140,7 @@
    VAULT BUTTON STYLES
    ============================================ */
 .vault-button {
-    -fx-background-color: #3C8DBC;
+    -fx-background-color: #3c8dbc;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 12px;
@@ -151,40 +151,40 @@
 }
 
 .vault-button:hover {
-    -fx-background-color: #4A9DCC;
+    -fx-background-color: #4a9dcc;
     -fx-effect: dropshadow(gaussian, rgba(60, 141, 188, 0.5), 10, 0, 0, 0);
 }
 
 .vault-button:pressed {
-    -fx-background-color: #2E7A9E;
+    -fx-background-color: #2e7a9e;
 }
 
 .play-button {
-    -fx-background-color: #28A745;
+    -fx-background-color: #28a745;
 }
 
 .play-button:hover {
-    -fx-background-color: #34CE57;
+    -fx-background-color: #34ce57;
     -fx-effect: dropshadow(gaussian, rgba(40, 167, 69, 0.5), 10, 0, 0, 0);
 }
 
 .back-button {
-    -fx-background-color: #6C757D;
+    -fx-background-color: #6c757d;
 }
 
 .back-button:hover {
-    -fx-background-color: #7D868F;
+    -fx-background-color: #7d868f;
 }
 
 .start-button {
-    -fx-background-color: #FFE600;
-    -fx-text-fill: #1A1A1A;
+    -fx-background-color: #ffe600;
+    -fx-text-fill: #1a1a1a;
     -fx-font-size: 14px;
     -fx-padding: 15px 30px;
 }
 
 .start-button:hover {
-    -fx-background-color: #FFF133;
+    -fx-background-color: #fff133;
     -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.5), 10, 0, 0, 0);
 }
 
@@ -192,16 +192,16 @@
    CONTAINER VIEW STYLES
    ============================================ */
 .container-header {
-    -fx-background-color: linear-gradient(to bottom, #2A2A2A, #1A1A1A);
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #1a1a1a);
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 0 0 2px 0;
 }
 
 .minigame-info {
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: #1f1f1f;
     -fx-background-radius: 5px;
     -fx-padding: 10px;
-    -fx-border-color: #3C8DBC;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
 }
@@ -209,7 +209,7 @@
 .container-title {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .container-subtitle {
@@ -218,7 +218,7 @@
 }
 
 .minigame-content-area {
-    -fx-background-color: #0D0D0D;
+    -fx-background-color: #0d0d0d;
     -fx-background-radius: 5px;
     -fx-border-color: #444444;
     -fx-border-width: 1px;
@@ -228,7 +228,7 @@
 .content-placeholder-title {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .content-placeholder-subtitle {
@@ -237,8 +237,8 @@
 }
 
 .container-footer {
-    -fx-background-color: #1F1F1F;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #1f1f1f;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 1px 0 0 0;
 }
 
@@ -246,8 +246,8 @@
    FOOTER STYLES
    ============================================ */
 .hub-footer {
-    -fx-background-color: #1F1F1F;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #1f1f1f;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 2px 0 0 0;
 }
 
@@ -266,14 +266,14 @@
    LABEL & TEXT STYLES
    ============================================ */
 .label {
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
 }
 
 /* ============================================
    SEPARATOR STYLES
    ============================================ */
 .separator .line {
-    -fx-border-color: #3C8DBC;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 1px;
 }
 
@@ -288,9 +288,9 @@
     TOOLTIP STYLES
     ============================================ */
 .tooltip {
-    -fx-background-color: #2A2A2A;
-    -fx-text-fill: #FFE600;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #ffe600;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 1px;
     -fx-font-size: 12px;
     -fx-padding: 5px 10px;
@@ -300,40 +300,40 @@
     PLUS OU MOINS GAME STYLES
     ============================================ */
 .game-plus-ou-moins {
-    -fx-background-color: linear-gradient(to bottom, #1A1A1A, #0D0D0D);
+    -fx-background-color: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
     -fx-padding: 30px;
 }
 
 .game-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
     -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.3), 5, 0, 0, 0);
 }
 
 .game-subtitle {
     -fx-font-size: 16px;
-    -fx-text-fill: #3C8DBC;
+    -fx-text-fill: #3c8dbc;
     -fx-font-weight: bold;
 }
 
 .game-instructions {
     -fx-font-size: 13px;
-    -fx-text-fill: #AAAAAA;
+    -fx-text-fill: #aaaaaa;
 }
 
 .section-title {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
 }
 
 .game-input {
     -fx-font-size: 16px;
     -fx-padding: 10px 15px;
-    -fx-background-color: #2A2A2A;
-    -fx-text-fill: #FFE600;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #2a2a2a;
+    -fx-text-fill: #ffe600;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 2px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
@@ -341,7 +341,7 @@
 }
 
 .game-input:focused {
-    -fx-border-color: #FFE600;
+    -fx-border-color: #ffe600;
     -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.3), 5, 0, 0, 0);
 }
 
@@ -353,97 +353,194 @@
 .info-value {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #3C8DBC;
+    -fx-text-fill: #3c8dbc;
 }
 
 .attempts-value {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .feedback-label {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
     -fx-padding: 10px;
     -fx-min-height: 40px;
 }
 
 .feedback-higher {
-    -fx-text-fill: #FF6B6B;
+    -fx-text-fill: #ff6b6b;
     -fx-effect: dropshadow(gaussian, rgba(255, 107, 107, 0.3), 3, 0, 0, 0);
 }
 
 .feedback-lower {
-    -fx-text-fill: #4ECDC4;
+    -fx-text-fill: #4ecdc4;
     -fx-effect: dropshadow(gaussian, rgba(78, 205, 196, 0.3), 3, 0, 0, 0);
 }
 
 .feedback-win {
-    -fx-text-fill: #28A745;
+    -fx-text-fill: #28a745;
     -fx-effect: dropshadow(gaussian, rgba(40, 167, 69, 0.3), 3, 0, 0, 0);
 }
 
 .feedback-loss {
-    -fx-text-fill: #DC3545;
+    -fx-text-fill: #dc3545;
     -fx-effect: dropshadow(gaussian, rgba(220, 53, 69, 0.3), 3, 0, 0, 0);
 }
 
 .score-value {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .game-over-message {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
 }
 
 .secret-number-label {
     -fx-font-size: 16px;
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
 }
 
 /* Dialog styling for alerts */
 .dialog-pane {
-    -fx-background-color: #2A2A2A;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #2a2a2a;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 2px;
 }
 
 .dialog-pane > .content.label {
-    -fx-text-fill: #CCCCCC;
+    -fx-text-fill: #cccccc;
     -fx-font-size: 14px;
 }
 
 .dialog-pane:header .header-panel {
-    -fx-background-color: #1A1A1A;
-    -fx-border-color: #3C8DBC;
+    -fx-background-color: #1a1a1a;
+    -fx-border-color: #3c8dbc;
     -fx-border-width: 0 0 1px 0;
 }
 
 .dialog-pane:header .header-panel .label {
-    -fx-text-fill: #FFE600;
+    -fx-text-fill: #ffe600;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
 .dialog-pane > .button-bar > .container {
-    -fx-background-color: #2A2A2A;
+    -fx-background-color: #2a2a2a;
 }
 
 .dialog-pane .button {
-    -fx-background-color: #3C8DBC;
+    -fx-background-color: #3c8dbc;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-padding: 8px 16px;
 }
 
 .dialog-pane .button:hover {
-    -fx-background-color: #4A9DCC;
+    -fx-background-color: #4a9dcc;
+}
+
+/* ============================================
+    TRUE OR FALSE GAME STYLES
+    ============================================ */
+.game-true-or-false {
+    -fx-background-color: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+    -fx-padding: 30px;
+}
+
+.question-box,
+.add-question-box {
+    -fx-background-color: #1f1f1f;
+    -fx-background-radius: 8px;
+    -fx-border-color: #3c8dbc;
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-padding: 16px;
+}
+
+.question-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-line-spacing: 4px;
+}
+
+.toggle-button {
+    -fx-background-color: #3c8dbc;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 10px 18px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #4a9dcc;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #ffe600;
+    -fx-text-fill: #1a1a1a;
+}
+
+#trueButton {
+    -fx-background-color: #28a745;
+}
+
+#trueButton:hover {
+    -fx-background-color: #34ce57;
+}
+
+#falseButton {
+    -fx-background-color: #dc3545;
+}
+
+#falseButton:hover {
+    -fx-background-color: #e25563;
+}
+
+#trueToggle:selected {
+    -fx-background-color: #28a745;
+    -fx-text-fill: white;
+}
+
+#falseToggle:selected {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+}
+
+.feedback-label {
+    -fx-alignment: center;
+    -fx-wrap-text: true;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 12px;
+    -fx-background-radius: 8px;
+    -fx-min-height: 44px;
+}
+
+.feedback-win {
+    -fx-text-fill: #28a745;
+    -fx-background-color: rgba(40, 167, 69, 0.12);
+    -fx-border-color: rgba(40, 167, 69, 0.6);
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+}
+
+.feedback-loss {
+    -fx-text-fill: #dc3545;
+    -fx-background-color: rgba(220, 53, 69, 0.12);
+    -fx-border-color: rgba(220, 53, 69, 0.6);
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
 }
 
 /* ============================================
@@ -456,11 +553,11 @@
 
 .vault-button:start-button:disabled {
     -fx-opacity: 0.6;
-    -fx-background-color: #B8A600;
+    -fx-background-color: #b8a600;
 }
 
 .game-input:disabled {
     -fx-opacity: 0.6;
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: #1f1f1f;
     -fx-border-color: #444444;
 }

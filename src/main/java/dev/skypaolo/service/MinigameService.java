@@ -43,6 +43,14 @@ public class MinigameService {
                 "/images/placeholders/plus-ou-moins-placeholder.png"
             )
         );
+        minigames.add(
+            new Minigame(
+                "true-or-false",
+                "True or False",
+                "Réponds vrai ou faux aux questions affichées une par une.",
+                "/images/placeholders/true-or-false-placeholder.png"
+            )
+        );
     }
 
     /**

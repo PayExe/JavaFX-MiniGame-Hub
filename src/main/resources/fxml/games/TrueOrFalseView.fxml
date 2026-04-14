@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="dev.skypaolo.controller.games.TrueOrFalseController"
+      styleClass="game-true-or-false"
+      spacing="18"
+      alignment="CENTER">
+
+    <padding>
+        <Insets top="25" right="35" bottom="25" left="35"/>
+    </padding>
+
+    <!-- Titre -->
+    <Label text="TRUE OR FALSE"
+           styleClass="game-title">
+        <font>
+            <Font name="System Bold" size="28"/>
+        </font>
+    </Label>
+
+    <!-- Sous-titre -->
+    <Label text="Réponds vrai ou faux aux questions affichées."
+           styleClass="game-subtitle"
+           wrapText="true"
+           textAlignment="CENTER"/>
+
+    <Separator styleClass="vault-separator"/>
+
+    <!-- Zone principale du jeu -->
+    <VBox spacing="15" alignment="CENTER">
+
+        <!-- Score -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Score :" styleClass="info-label"/>
+            <Label fx:id="scoreLabel" text="0" styleClass="score-value"/>
+        </HBox>
+
+        <!-- Question courante -->
+        <VBox spacing="10" alignment="CENTER" styleClass="question-box">
+            <Label text="Question :" styleClass="section-title"/>
+            <Label fx:id="questionLabel"
+                   text="Clique sur une réponse pour commencer."
+                   wrapText="true"
+                   textAlignment="CENTER"
+                   alignment="CENTER"
+                   styleClass="question-label"
+                   maxWidth="500"/>
+        </VBox>
+
+        <!-- Boutons de réponse -->
+        <HBox spacing="15" alignment="CENTER">
+            <Button fx:id="trueButton"
+                    text="VRAI"
+                    onAction="#handleTrue"
+                    styleClass="vault-button, start-button"
+                    prefWidth="140"/>
+            <Button fx:id="falseButton"
+                    text="FAUX"
+                    onAction="#handleFalse"
+                    styleClass="vault-button, back-button"
+                    prefWidth="140"/>
+        </HBox>
+
+        <!-- Feedback -->
+        <Label fx:id="feedbackLabel"
+               text=""
+               wrapText="true"
+               textAlignment="CENTER"
+               styleClass="feedback-label"
+               maxWidth="500"/>
+
+        <!-- Progression -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Question :" styleClass="info-label"/>
+            <Label fx:id="questionIndexLabel" text="0/10" styleClass="attempts-value"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Partie :" styleClass="info-label"/>
+            <Label fx:id="gameStateLabel" text="En attente" styleClass="info-value"/>
+        </HBox>
+    </VBox>
+
+    <Separator styleClass="vault-separator"/>
+
+    <!-- Formulaire d'ajout de question -->
+    <VBox spacing="12" alignment="CENTER" styleClass="add-question-box">
+        <Label text="Ajouter une question" styleClass="section-title"/>
+
+        <TextField fx:id="newQuestionField"
+                   promptText="Écris ta question ici"
+                   maxWidth="500"
+                   styleClass="game-input"/>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Label text="Réponse correcte :" styleClass="info-label"/>
+
+            <ToggleButton fx:id="trueToggle"
+                          text="Vrai"
+                          selected="true"
+                          styleClass="vault-button"/>
+            <ToggleButton fx:id="falseToggle"
+                          text="Faux"
+                          styleClass="vault-button"/>
+        </HBox>
+
+        <TextField fx:id="categoryField"
+                   promptText="Catégorie (ex: science, culture...)"
+                   maxWidth="300"
+                   styleClass="game-input"/>
+
+        <Button fx:id="addQuestionButton"
+                text="AJOUTER"
+                onAction="#handleAddQuestion"
+                styleClass="vault-button, play-button"
+                prefWidth="160"/>
+    </VBox>
+
+    <Separator styleClass="vault-separator"/>
+
+    <!-- Actions -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="nextGameButton"
+                text="QUESTION SUIVANTE"
+                onAction="#handleNextQuestion"
+                styleClass="vault-button"
+                prefWidth="170"/>
+        <Button fx:id="backButton"
+                text="RETOUR AU HUB"
+                onAction="#handleBackToHub"
+                styleClass="vault-button, back-button"
+                prefWidth="170"/>
+    </HBox>
+
+</VBox>
