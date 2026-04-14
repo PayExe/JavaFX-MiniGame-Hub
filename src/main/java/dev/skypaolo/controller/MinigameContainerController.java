@@ -16,10 +16,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 /**
  * Vault-Tec Controller: Minigame Container
  * Manages the container view with header and content area for minigames.
