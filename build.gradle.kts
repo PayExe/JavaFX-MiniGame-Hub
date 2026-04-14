@@ -9,7 +9,8 @@ repositories {
 }
 
 dependencies {
-    // JavaFX modules are managed by the plugin, but you can override versions here if needed
+    // SQLite JDBC driver for database persistence
+    implementation("org.xerial:sqlite-jdbc:3.45.1.0")
 }
 
 javafx {

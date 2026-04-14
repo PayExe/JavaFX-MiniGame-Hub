@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!-- 
+    Vault-Tec View: Jeu du + ou -
+    French language interface for the Plus or Minus game.
+    S.P.E.C.I.A.L. Stats: Charisma (appealing design), Intelligence (clear layout)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="dev.skypaolo.controller.games.PlusOuMoinsController"
+      styleClass="game-plus-ou-moins"
+      spacing="20"
+      alignment="CENTER">
+    
+    <padding>
+        <Insets top="30" right="40" bottom="30" left="40"/>
+    </padding>
+    
+    <!-- Header Section -->
+    <VBox spacing="10" alignment="CENTER">
+        <Label styleClass="game-title" text="JEU DU + OU -">
+            <font>
+                <Font name="System Bold" size="28"/>
+            </font>
+        </Label>
+        
+        <Label styleClass="game-subtitle" 
+               text="Devinez le nombre secret entre 1 et 1000!"
+               textAlignment="CENTER"/>
+        
+        <Label styleClass="game-instructions"
+               text="Vous avez 10 tentatives. Bonne chance, habitant de l'Abri!"
+               textAlignment="CENTER"/>
+    </VBox>
+    
+    <Separator styleClass="vault-separator"/>
+    
+    <!-- Player Name Input Section (Initial State) -->
+    <VBox fx:id="nameInputSection" spacing="15" alignment="CENTER">
+        <Label styleClass="section-title" text="Entrez votre nom:" />
+        
+        <TextField fx:id="playerNameField"
+                   styleClass="game-input"
+                   promptText="Nom du joueur"
+                   maxWidth="250"
+                   alignment="CENTER"/>
+        
+        <Button fx:id="startButton"
+                styleClass="vault-button, start-button"
+                text="COMMENCER"
+                onAction="#handleStartGame"
+                maxWidth="200"/>
+    </VBox>
+    
+    <!-- Game Section (Hidden Initially) -->
+    <VBox fx:id="gameSection" spacing="15" alignment="CENTER" visible="false" managed="false">
+        
+        <!-- Player Info -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label styleClass="info-label" text="Joueur:" />
+            <Label fx:id="playerNameLabel" styleClass="info-value" text="-" />
+        </HBox>
+        
+        <!-- Attempts Counter -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label styleClass="info-label" text="Tentatives restantes:" />
+            <Label fx:id="attemptsLabel" styleClass="attempts-value" text="10/10" />
+        </HBox>
+        
+        <!-- Input Area -->
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="guessField"
+                       styleClass="game-input"
+                       promptText="Votre nombre (1-1000)"
+                       maxWidth="180"
+                       alignment="CENTER"/>
+            
+            <Button fx:id="validateButton"
+                    styleClass="vault-button"
+                    text="VALIDER"
+                    onAction="#handleGuess"
+                    maxWidth="120"
+                    disable="false"/>
+        </HBox>
+        
+        <!-- Feedback Area -->
+        <VBox spacing="10" alignment="CENTER" minHeight="60">
+            <Label fx:id="feedbackLabel" 
+                   styleClass="feedback-label"
+                   text=""
+                   textAlignment="CENTER"
+                   wrapText="true"/>
+        </VBox>
+        
+        <!-- Score Display -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label styleClass="info-label" text="Score:" />
+            <Label fx:id="scoreLabel" styleClass="score-value" text="0 points" />
+        </HBox>
+        
+        <!-- Game Over Message (Hidden Initially) -->
+        <VBox fx:id="gameOverSection" spacing="10" alignment="CENTER" visible="false" managed="false">
+            <Label fx:id="gameOverLabel" 
+                   styleClass="game-over-message"
+                   text=""
+                   textAlignment="CENTER"/>
+            
+            <Label fx:id="secretNumberLabel"
+                   styleClass="secret-number-label"
+                   text=""
+                   textAlignment="CENTER"/>
+        </VBox>
+        
+        <!-- Action Buttons -->
+        <HBox spacing="15" alignment="CENTER">
+            <Button fx:id="newGameButton"
+                    styleClass="vault-button, start-button"
+                    text="NOUVELLE PARTIE"
+                    onAction="#handleNewGame"
+                    visible="false"
+                    managed="false"
+                    disable="true"/>
+            
+            <Button styleClass="vault-button, back-button"
+                    text="RETOUR AU HUB"
+                    onAction="#handleBackToHub"/>
+        </HBox>
+        
+    </VBox>
+    
+</VBox>

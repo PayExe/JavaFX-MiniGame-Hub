@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- 
+    Vault-Tec Component: Minigame Card
+    Reusable card component for displaying minigame information
+    S.P.E.C.I.A.L. Stats: Charisma (visual appeal), Agility (responsiveness)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="dev.skypaolo.controller.MinigameCardController"
+      styleClass="minigame-card"
+      spacing="10"
+      alignment="TOP_CENTER">
+    
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+    
+    <!-- Minigame Image -->
+    <StackPane styleClass="card-image-container">
+        <ImageView fx:id="cardImage" 
+                   fitWidth="200" 
+                   fitHeight="120"
+                   preserveRatio="true"
+                   smooth="true"
+                   cache="true">
+            <image>
+                <Image url="@../../../images/placeholders/default-placeholder.png" 
+                       backgroundLoading="true"/>
+            </image>
+        </ImageView>
+    </StackPane>
+    
+    <!-- Title -->
+    <Label fx:id="cardTitle" 
+           styleClass="card-title"
+           text="Minigame Title"
+           wrapText="true"
+           maxWidth="200"
+           alignment="CENTER"/>
+    
+    <!-- Description -->
+    <Label fx:id="cardDescription" 
+           styleClass="card-description"
+           text="Minigame description goes here..."
+           wrapText="true"
+           maxWidth="200"
+           alignment="CENTER"/>
+    
+    <!-- Spacer to push button to bottom -->
+    <Region VBox.vgrow="ALWAYS"/>
+    
+    <!-- Play Button -->
+    <Button fx:id="playButton" 
+            styleClass="vault-button, play-button"
+            text="PLAY"
+            maxWidth="Infinity"
+            onAction="#handlePlay"/>
+    
+</VBox>

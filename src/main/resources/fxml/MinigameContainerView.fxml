@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!-- 
+    Vault-Tec View: Minigame Container
+    Container view with header for navigation and content area for minigames
+    S.P.E.C.I.A.L. Stats: Endurance (stable layout), Intelligence (flexible content)
+-->
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/17"
+            fx:controller="dev.skypaolo.controller.MinigameContainerController"
+            styleClass="vault-background"
+            prefWidth="800"
+            prefHeight="600">
+    
+    <!-- Header with Back Button and Minigame Info -->
+    <top>
+        <VBox styleClass="container-header">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <!-- Navigation Bar -->
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                
+                <!-- Back Button -->
+                <Button fx:id="backButton"
+                        styleClass="vault-button, back-button"
+                        text="&#8592;  BACK TO HUB"
+                        onAction="#handleBackToHub"/>
+                
+                <!-- Spacer -->
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <!-- Minigame Info Display -->
+                <HBox styleClass="minigame-info" spacing="10" alignment="CENTER_RIGHT">
+                    <ImageView fx:id="minigameIcon"
+                               fitWidth="40"
+                               fitHeight="40"
+                               preserveRatio="true">
+                        <image>
+                            <Image url="@../../../images/placeholders/default-placeholder.png"/>
+                        </image>
+                    </ImageView>
+                    
+                    <VBox alignment="CENTER_LEFT">
+                        <Label fx:id="minigameTitle" 
+                               styleClass="container-title"
+                               text="Minigame Title"/>
+                        <Label styleClass="container-subtitle"
+                               text="Vault-Tec Simulation Module"/>
+                    </VBox>
+                </HBox>
+                
+            </HBox>
+            
+            <!-- Separator -->
+            <Separator styleClass="vault-separator">
+                <VBox.margin>
+                    <Insets top="15"/>
+                </VBox.margin>
+            </Separator>
+            
+        </VBox>
+    </top>
+    
+    <!-- Minigame Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" styleClass="minigame-content-area">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <!-- Loading indicator - will be replaced by game content -->
+            <VBox alignment="CENTER" spacing="15" fx:id="loadingContent">
+                <Label styleClass="content-placeholder-title"
+                       text="Chargement de la simulation..."
+                       textAlignment="CENTER"/>
+                <Label styleClass="content-placeholder-subtitle"
+                       text="Vault-Tec initialise les systèmes"
+                       textAlignment="CENTER"/>
+            </VBox>
+            
+        </StackPane>
+    </center>
+    
+    <!-- Footer -->
+    <bottom>
+        <HBox styleClass="container-footer" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
+            
+            <Label styleClass="footer-text"
+                   text="Press ESC to pause | F1 for help | Vault-Tec is monitoring your performance"
+                   textAlignment="CENTER"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>
