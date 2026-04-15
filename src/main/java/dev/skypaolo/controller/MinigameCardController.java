@@ -74,6 +74,7 @@ public class MinigameCardController {
     
     /**
      * Handle play button click - Navigate to minigame container
+     * PRESERVES window size during transition - Vault-Tec UX Standard
      */
     @FXML
     public void handlePlay(ActionEvent event) {
@@ -91,16 +92,22 @@ public class MinigameCardController {
             MinigameContainerController controller = loader.getController();
             controller.setMinigame(minigame);
             
-            // Get current stage
+            // Get current stage and preserve dimensions
             Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            double currentWidth = currentStage.getWidth();
+            double currentHeight = currentStage.getHeight();
             
-            // Create new scene with Vault-Tec dimensions
-            Scene scene = new Scene(containerView, 800, 600);
+            // Create new scene WITHOUT hardcoded dimensions
+            Scene scene = new Scene(containerView);
             scene.getStylesheets().add(getClass().getResource("/css/vault-tec-theme.css").toExternalForm());
             
-            // Transition to new view
+            // Transition to new view while preserving window size
             currentStage.setScene(scene);
             currentStage.setTitle("Vault-Tec Mini Game Hub - " + minigame.getTitle());
+            
+            // Restore preserved dimensions
+            currentStage.setWidth(currentWidth);
+            currentStage.setHeight(currentHeight);
             
         } catch (IOException e) {
             System.err.println("[Vault-Tec Critical] Failed to load minigame container: " + e.getMessage());

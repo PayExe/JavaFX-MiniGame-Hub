@@ -91,6 +91,29 @@ public class DatabaseManager {
             )
             """;
 
+        // Blackjack Game tables
+        String createBlackjackPlayersTable = """
+            CREATE TABLE IF NOT EXISTS players_blackjack (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE,
+                balance INTEGER DEFAULT 1000
+            )
+            """;
+
+        String createBlackjackHistoryTable = """
+            CREATE TABLE IF NOT EXISTS history_blackjack (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_id INTEGER NOT NULL,
+                bet INTEGER NOT NULL,
+                result TEXT NOT NULL,
+                balance_after INTEGER NOT NULL,
+                player_hand_value INTEGER,
+                dealer_hand_value INTEGER,
+                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (player_id) REFERENCES players_blackjack(id)
+            )
+            """;
+
         try (
             Connection conn = getConnection();
             Statement stmt = conn.createStatement()
@@ -105,6 +128,8 @@ public class DatabaseManager {
             stmt.execute(createQuestionsTable);
             stmt.execute(createSnakePlayersTable);
             stmt.execute(createSnakeScoresTable);
+            stmt.execute(createBlackjackPlayersTable);
+            stmt.execute(createBlackjackHistoryTable);
 
             System.out.println("[VT-OS] Database initialized successfully.");
             System.out.println("[VT-OS] Vault-Tec data storage: OPERATIONAL");
@@ -373,5 +398,160 @@ public class DatabaseManager {
             System.err.println("[VT-OS ERROR] Failed to get best Snake score: " + e.getMessage());
         }
         return 0;
+    }
+
+    // ============================================
+    // BLACKJACK GAME DATABASE METHODS
+    // ============================================
+
+    /**
+     * Get or create a Blackjack player and return their ID
+     *
+     * @param playerName Player name
+     * @return player ID, or -1 if error
+     */
+    public int getOrCreateBlackjackPlayerId(String playerName) {
+        String selectSQL = "SELECT id FROM players_blackjack WHERE name = ?";
+        String insertSQL = "INSERT INTO players_blackjack (name, balance) VALUES (?, 1000)";
+
+        try (Connection conn = getConnection()) {
+            // Try to find existing player
+            try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+                pstmt.setString(1, playerName);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+
+            // Create new player
+            try (PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setString(1, playerName);
+                pstmt.executeUpdate();
+
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    System.out.println("[VT-OS] New Blackjack player registered: " + playerName);
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to get/create Blackjack player: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    /**
+     * Get player's current balance
+     *
+     * @param playerId Player ID
+     * @return Current balance, or 0 if not found
+     */
+    public int getBlackjackPlayerBalance(int playerId) {
+        String sql = "SELECT balance FROM players_blackjack WHERE id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, playerId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("balance");
+            }
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to get player balance: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    /**
+     * Update player's balance
+     *
+     * @param playerId Player ID
+     * @param newBalance New balance amount
+     * @return true if successful
+     */
+    public boolean updateBlackjackPlayerBalance(int playerId, int newBalance) {
+        String sql = "UPDATE players_blackjack SET balance = ? WHERE id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, newBalance);
+            pstmt.setInt(2, playerId);
+            pstmt.executeUpdate();
+
+            return true;
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to update player balance: " + e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Save a Blackjack game result to the database
+     *
+     * @param playerId Player ID
+     * @param bet The bet amount
+     * @param result Game result (WIN, LOSS, PUSH, BLACKJACK_WIN, DEALER_BLACKJACK)
+     * @param balanceAfter Balance after the game
+     * @param playerHandValue Player's hand value
+     * @param dealerHandValue Dealer's hand value
+     * @return true if save successful
+     */
+    public boolean saveBlackjackGameResult(int playerId, int bet, String result, 
+                                           int balanceAfter, int playerHandValue, int dealerHandValue) {
+        String insertSQL = """
+            INSERT INTO history_blackjack (player_id, bet, result, balance_after, player_hand_value, dealer_hand_value)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """;
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+
+            pstmt.setInt(1, playerId);
+            pstmt.setInt(2, bet);
+            pstmt.setString(3, result);
+            pstmt.setInt(4, balanceAfter);
+            pstmt.setInt(5, playerHandValue);
+            pstmt.setInt(6, dealerHandValue);
+            pstmt.executeUpdate();
+
+            System.out.println("[VT-OS] Blackjack game result saved. Result: " + result);
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to save Blackjack game result: " + e.getMessage());
+        }
+        return false;
+    }
+
+    /**
+     * Get player's Blackjack game history
+     *
+     * @param playerId Player ID
+     * @param limit Number of records to retrieve
+     * @return ResultSet with game history
+     */
+    public ResultSet getBlackjackGameHistory(int playerId, int limit) {
+        String sql = """
+            SELECT bet, result, balance_after, player_hand_value, dealer_hand_value, date
+            FROM history_blackjack
+            WHERE player_id = ?
+            ORDER BY date DESC
+            LIMIT ?
+            """;
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, playerId);
+            pstmt.setInt(2, limit);
+            return pstmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to retrieve game history: " + e.getMessage());
+            return null;
+        }
     }
 }

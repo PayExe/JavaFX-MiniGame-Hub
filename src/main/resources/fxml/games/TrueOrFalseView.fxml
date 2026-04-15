@@ -64,13 +64,11 @@
             <Button fx:id="trueButton"
                     text="VRAI"
                     onAction="#handleTrue"
-                    styleClass="vault-button, start-button"
-                    prefWidth="140"/>
+                    styleClass="vault-button, start-button"/>
             <Button fx:id="falseButton"
                     text="FAUX"
                     onAction="#handleFalse"
-                    styleClass="vault-button, back-button"
-                    prefWidth="140"/>
+                    styleClass="vault-button, back-button"/>
         </HBox>
 
         <!-- Feedback -->
@@ -124,8 +122,7 @@
         <Button fx:id="addQuestionButton"
                 text="AJOUTER"
                 onAction="#handleAddQuestion"
-                styleClass="vault-button, play-button"
-                prefWidth="160"/>
+                styleClass="vault-button, play-button"/>
     </VBox>
 
     <Separator styleClass="vault-separator"/>
@@ -135,13 +132,11 @@
         <Button fx:id="nextGameButton"
                 text="QUESTION SUIVANTE"
                 onAction="#handleNextQuestion"
-                styleClass="vault-button"
-                prefWidth="170"/>
+                styleClass="vault-button"/>
         <Button fx:id="backButton"
                 text="RETOUR AU HUB"
                 onAction="#handleBackToHub"
-                styleClass="vault-button, back-button"
-                prefWidth="170"/>
+                styleClass="vault-button, back-button"/>
     </HBox>
 
 </VBox>

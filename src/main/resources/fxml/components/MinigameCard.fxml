@@ -59,7 +59,6 @@
     <Button fx:id="playButton" 
             styleClass="vault-button, play-button"
             text="PLAY"
-            maxWidth="Infinity"
             onAction="#handlePlay"/>
     
 </VBox>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!-- 
+    Vault-Tec View: Blackjack Game
+    French language interface for the Blackjack card game simulation.
+    S.P.E.C.I.A.L. Stats: Charisma (casino atmosphere), Intelligence (clear layout)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="dev.skypaolo.controller.games.BlackjackController"
+      styleClass="game-blackjack"
+      spacing="15"
+      alignment="CENTER">
+    
+    <padding>
+        <Insets top="20" right="30" bottom="20" left="30"/>
+    </padding>
+    
+    <!-- Header Section -->
+    <VBox spacing="5" alignment="CENTER">
+        <Label styleClass="game-title" text="BLACKJACK">
+            <font>
+                <Font name="System Bold" size="28"/>
+            </font>
+        </Label>
+        
+        <Label styleClass="game-subtitle" 
+               text="Vault-Tec Casino - Le croupier tire à 17"
+               textAlignment="CENTER"/>
+        
+        <Label styleClass="game-instructions"
+               text="Atteignez 21 sans dépasser. Blackjack naturel = ×1.5 la mise!"
+               textAlignment="CENTER"/>
+    </VBox>
+    
+    <Separator styleClass="vault-separator"/>
+    
+    <!-- Registration Section (Initial State) -->
+    <VBox fx:id="registrationSection" spacing="15" alignment="CENTER">
+        <Label styleClass="section-title" text="Bienvenue au Vault-Tec Casino" />
+        
+        <Label text="Entrez votre nom pour commencer:"
+               styleClass="info-label"/>
+        
+        <TextField fx:id="playerNameField"
+                   styleClass="game-input"
+                   promptText="Nom du joueur"
+                   maxWidth="250"
+                   alignment="CENTER"/>
+        
+        <Button fx:id="registerButton"
+                styleClass="vault-button, start-button"
+                text="ENTRER AU CASINO"
+                onAction="#handleRegister"/>
+    </VBox>
+    
+    <!-- Betting Section -->
+    <VBox fx:id="bettingSection" spacing="15" alignment="CENTER" visible="false" managed="false">
+        
+        <!-- Player Info -->
+        <HBox spacing="10" alignment="CENTER">
+            <Label styleClass="info-label" text="Joueur:" />
+            <Label fx:id="playerNameDisplay" styleClass="info-value" text="-" />
+            <Label text=" | " styleClass="info-label"/>
+            <Label fx:id="balanceLabel" styleClass="score-value" text="Solde: 1000 crédits" />
+        </HBox>
+        
+        <Separator styleClass="vault-separator"/>
+        
+        <Label styleClass="section-title" text="Placez votre mise" />
+        
+        <Label fx:id="minBetLabel" text="Mise minimum: 10 crédits"
+               styleClass="info-label"/>
+        
+        <HBox spacing="10" alignment="CENTER">
+            <TextField fx:id="betField"
+                       styleClass="game-input"
+                       promptText="Montant de la mise"
+                       maxWidth="150"
+                       alignment="CENTER"/>
+            
+            <Button fx:id="betButton"
+                    styleClass="vault-button, play-button"
+                    text="MISER"
+                    onAction="#handlePlaceBet"/>
+        </HBox>
+        
+        <Button styleClass="vault-button, back-button"
+                text="RETOUR AU HUB"
+                onAction="#handleBackToHub"/>
+    </VBox>
+    
+    <!-- Game Section (Hidden Initially) -->
+    <VBox fx:id="gameSection" spacing="12" alignment="CENTER" visible="false" managed="false">
+        
+        <!-- Current Bet Display -->
+        <HBox spacing="15" alignment="CENTER">
+            <Label fx:id="currentBetLabel" styleClass="score-value" text="Mise: 0 crédits" />
+            <Label fx:id="balanceLabel" styleClass="info-value" text="Solde: 1000 crédits" />
+        </HBox>
+        
+        <!-- Dealer Area -->
+        <VBox fx:id="dealerArea" spacing="8" alignment="CENTER" 
+              styleClass="hand-area, dealer-area">
+            <Label styleClass="hand-title" text="🎰 CROUPIER"/>
+            
+            <HBox fx:id="dealerCardsBox" spacing="8" alignment="CENTER"
+                  styleClass="cards-container"/>
+            
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="dealerValueLabel" styleClass="hand-value" text="Valeur: ?"/>
+                <Label fx:id="dealerStatusLabel" styleClass="status-label"/>
+            </HBox>
+        </VBox>
+        
+        <!-- VS Indicator -->
+        <Label text="⚡ VS ⚡" styleClass="vs-indicator"/>
+        
+        <!-- Player Area -->
+        <VBox fx:id="playerArea" spacing="8" alignment="CENTER"
+              styleClass="hand-area, player-area">
+            <Label styleClass="hand-title" text="👤 JOUEUR"/>
+            
+            <HBox fx:id="playerCardsBox" spacing="8" alignment="CENTER"
+                  styleClass="cards-container"/>
+            
+            <HBox spacing="10" alignment="CENTER">
+                <Label fx:id="playerValueLabel" styleClass="hand-value" text="Valeur: 0"/>
+                <Label fx:id="playerStatusLabel" styleClass="status-label"/>
+            </HBox>
+        </VBox>
+        
+        <!-- Action Buttons -->
+        <HBox fx:id="actionButtons" spacing="12" alignment="CENTER">
+            <Button fx:id="hitButton"
+                    styleClass="vault-button"
+                    text="TIRER (HIT)"
+                    onAction="#handleHit"
+                    disable="true"/>
+            
+            <Button fx:id="standButton"
+                    styleClass="vault-button, start-button"
+                    text="RESTER (STAND)"
+                    onAction="#handleStand"
+                    disable="true"/>
+            
+            <Button fx:id="doubleButton"
+                    styleClass="vault-button, play-button"
+                    text="DOUBLER"
+                    onAction="#handleDouble"
+                    disable="true"/>
+        </HBox>
+        
+        <!-- Result Section (Hidden Initially) -->
+        <VBox fx:id="resultSection" spacing="10" alignment="CENTER" 
+              visible="false" managed="false"
+              styleClass="result-box">
+            <Label fx:id="resultLabel" 
+                   styleClass="result-message"
+                   text=""
+                   textAlignment="CENTER"/>
+            <Label fx:id="resultDetailsLabel"
+                   styleClass="result-details"
+                   text=""
+                   textAlignment="CENTER"/>
+        </VBox>
+        
+        <!-- New Round Button -->
+        <Button fx:id="newRoundButton"
+                styleClass="vault-button, start-button"
+                text="NOUVELLE MAIN"
+                onAction="#handleNewRound"
+                visible="false"
+                managed="false"
+                disable="true"/>
+        
+        <!-- Back Button -->
+        <Button styleClass="vault-button, back-button"
+                text="RETOUR AU HUB"
+                onAction="#handleBackToHub"/>
+    </VBox>
+    
+</VBox>

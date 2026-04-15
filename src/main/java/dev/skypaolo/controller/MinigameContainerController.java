@@ -96,6 +96,7 @@ public class MinigameContainerController implements Initializable {
 
     /**
      * Handle back button click - return to main hub
+     * PRESERVES window size during transition - Vault-Tec UX Standard
      */
     @FXML
     public void handleBackToHub(ActionEvent event) {
@@ -108,13 +109,15 @@ public class MinigameContainerController implements Initializable {
             );
             Parent hubView = loader.load();
 
-            // Get current stage
+            // Get current stage and preserve dimensions
             Stage currentStage = (Stage) (
                 (Node) event.getSource()
             ).getScene().getWindow();
+            double currentWidth = currentStage.getWidth();
+            double currentHeight = currentStage.getHeight();
 
-            // Create new scene
-            Scene scene = new Scene(hubView, 800, 600);
+            // Create new scene WITHOUT hardcoded dimensions
+            Scene scene = new Scene(hubView);
             scene
                 .getStylesheets()
                 .add(
@@ -123,9 +126,13 @@ public class MinigameContainerController implements Initializable {
                         .toExternalForm()
                 );
 
-            // Transition back to hub
+            // Transition back to hub while preserving window size
             currentStage.setScene(scene);
             currentStage.setTitle("Vault-Tec Mini Game Hub");
+            
+            // Restore preserved dimensions
+            currentStage.setWidth(currentWidth);
+            currentStage.setHeight(currentHeight);
 
             System.out.println(
                 "[VT-OS] Successfully returned to Mini Game Hub."
@@ -167,6 +174,9 @@ public class MinigameContainerController implements Initializable {
                     break;
                 case "snake":
                     loadSnakeGame();
+                    break;
+                case "blackjack":
+                    loadBlackjackGame();
                     break;
                 default:
                     // Show placeholder for unimplemented games
@@ -221,6 +231,20 @@ public class MinigameContainerController implements Initializable {
         contentArea.getChildren().add(gameView);
         System.out.println(
             "[VT-OS] Snake simulation loaded successfully."
+        );
+    }
+
+    /**
+     * Load the Blackjack game
+     */
+    private void loadBlackjackGame() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/fxml/games/BlackjackView.fxml")
+        );
+        Parent gameView = loader.load();
+        contentArea.getChildren().add(gameView);
+        System.out.println(
+            "[VT-OS] Blackjack simulation loaded successfully."
         );
     }
 

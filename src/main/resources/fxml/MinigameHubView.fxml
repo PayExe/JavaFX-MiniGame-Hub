@@ -14,8 +14,8 @@
             xmlns="http://javafx.com/javafx/17"
             fx:controller="dev.skypaolo.controller.MinigameHubController"
             styleClass="vault-background"
-            prefWidth="800"
-            prefHeight="600">
+            prefWidth="1280"
+            prefHeight="720">
     
     <!-- Header Section -->
     <top>

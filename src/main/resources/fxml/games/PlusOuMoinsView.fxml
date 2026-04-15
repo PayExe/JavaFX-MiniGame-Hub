@@ -53,8 +53,7 @@
         <Button fx:id="startButton"
                 styleClass="vault-button, start-button"
                 text="COMMENCER"
-                onAction="#handleStartGame"
-                maxWidth="200"/>
+                onAction="#handleStartGame"/>
     </VBox>
     
     <!-- Game Section (Hidden Initially) -->
@@ -84,7 +83,6 @@
                     styleClass="vault-button"
                     text="VALIDER"
                     onAction="#handleGuess"
-                    maxWidth="120"
                     disable="false"/>
         </HBox>
         

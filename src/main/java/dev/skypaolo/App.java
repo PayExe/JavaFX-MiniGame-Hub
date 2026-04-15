@@ -22,10 +22,10 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     /**
-     * Application dimensions - Vault-Tec standard viewport
+     * Application dimensions - Vault-Tec standard viewport (HD Edition)
      */
-    private static final double APP_WIDTH = 800;
-    private static final double APP_HEIGHT = 600;
+    private static final double APP_WIDTH = 1280;
+    private static final double APP_HEIGHT = 720;
     private static final String APP_TITLE = "Vault-Tec Mini Game Hub";
     
     /**
@@ -56,11 +56,11 @@ public class App extends Application {
             // Apply Vault-Tec CSS theme
             scene.getStylesheets().add(getClass().getResource(CSS_THEME_PATH).toExternalForm());
             
-            // Configure stage
+            // Configure stage - Vault-Tec HD standard with minimum safe dimensions
             stage.setTitle(APP_TITLE);
             stage.setScene(scene);
-            stage.setMinWidth(600);
-            stage.setMinHeight(400);
+            stage.setMinWidth(800);
+            stage.setMinHeight(600);
             
             // Show the application
             stage.show();

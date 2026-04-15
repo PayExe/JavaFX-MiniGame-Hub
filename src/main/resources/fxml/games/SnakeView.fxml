@@ -73,8 +73,7 @@
         <Button fx:id="startButton"
                 styleClass="vault-button, start-button"
                 text="COMMENCER"
-                onAction="#handleStartGame"
-                maxWidth="200"/>
+                onAction="#handleStartGame"/>
     </VBox>
     
     <!-- Game Area Section (Hidden Initially) -->

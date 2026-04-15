@@ -63,6 +63,19 @@ public class MinigameService {
                 "/images/placeholders/snake-placeholder.png"
             )
         );
+
+        // Game 4: Blackjack (Implemented per specification)
+        minigames.add(
+            new Minigame(
+                "blackjack",
+                "Blackjack",
+                "Le classique jeu de cartes 21! Affrontez le croupier Vault-Tec. " +
+                "Misez vos crédits, tirez des cartes, atteignez 21 sans dépasser. " +
+                "Blackjack naturel = ×1.5 la mise! " +
+                "Difficulté: Moyen | Points: 4",
+                "/images/placeholders/blackjack-placeholder.png"
+            )
+        );
     }
 
     /**
