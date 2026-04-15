@@ -6,12 +6,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Snake {
+
     private Deque<SnakePoint> body;
     private SnakeDirection currentDirection;
     private SnakeDirection nextDirection;
     private boolean growPending;
 
-    public Snake(int startX, int startY, int initialLength, SnakeDirection initialDirection) {
+    public Snake(
+        int startX,
+        int startY,
+        int initialLength,
+        SnakeDirection initialDirection
+    ) {
         this.body = new ArrayDeque<>();
         this.currentDirection = initialDirection;
         this.nextDirection = initialDirection;
@@ -72,7 +78,7 @@ public class Snake {
     }
 
     public boolean collidesWithSelf() {
-        SnakePoint head = getHead();
+        // SnakePoint head = getHead();
         Set<SnakePoint> bodySet = new HashSet<>(body);
         return bodySet.size() < body.size();
     }
@@ -91,10 +97,15 @@ public class Snake {
 
     @Override
     public String toString() {
-        return "Snake{" +
-               "length=" + getLength() +
-               ", head=" + getHead() +
-               ", direction=" + currentDirection +
-               '}';
+        return (
+            "Snake{" +
+            "length=" +
+            getLength() +
+            ", head=" +
+            getHead() +
+            ", direction=" +
+            currentDirection +
+            '}'
+        );
     }
 }

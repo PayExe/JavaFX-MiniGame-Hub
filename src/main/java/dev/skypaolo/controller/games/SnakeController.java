@@ -2,6 +2,9 @@ package dev.skypaolo.controller.games;
 
 import dev.skypaolo.database.DatabaseManager;
 import dev.skypaolo.model.snake.*;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,30 +23,55 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-
 public class SnakeController implements Initializable {
 
-    @FXML private Label scoreLabel;
-    @FXML private Label lengthLabel;
-    @FXML private Label timeLabel;
+    @FXML
+    private Label scoreLabel;
 
-    @FXML private VBox nameInputSection;
-    @FXML private TextField playerNameField;
-    @FXML private Button startButton;
+    @FXML
+    private Label lengthLabel;
 
-    @FXML private javafx.scene.layout.StackPane gameArea;
-    @FXML private Canvas gameCanvas;
-    @FXML private VBox startOverlay;
-    @FXML private VBox pauseOverlay;
-    @FXML private VBox gameOverOverlay;
-    @FXML private Label finalScoreLabel;
-    @FXML private Label finalLengthLabel;
-    @FXML private Button newGameButton;
-    @FXML private Label controlsHint;
-    @FXML private Button backToHubButton;
+    @FXML
+    private Label timeLabel;
+
+    @FXML
+    private VBox nameInputSection;
+
+    @FXML
+    private TextField playerNameField;
+
+    @FXML
+    private Button startButton;
+
+    @FXML
+    private javafx.scene.layout.StackPane gameArea;
+
+    @FXML
+    private Canvas gameCanvas;
+
+    @FXML
+    private VBox startOverlay;
+
+    @FXML
+    private VBox pauseOverlay;
+
+    @FXML
+    private VBox gameOverOverlay;
+
+    @FXML
+    private Label finalScoreLabel;
+
+    @FXML
+    private Label finalLengthLabel;
+
+    @FXML
+    private Button newGameButton;
+
+    @FXML
+    private Label controlsHint;
+
+    @FXML
+    private Button backToHubButton;
 
     private SnakeGame game;
     private DatabaseManager databaseManager;
@@ -76,14 +104,20 @@ public class SnakeController implements Initializable {
 
         render();
 
-        System.out.println("[VT-OS] Snake controller ready. Awaiting player identification.");
+        System.out.println(
+            "[VT-OS] Snake controller ready. Awaiting player identification."
+        );
     }
 
     private void setupGameLoop() {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (game.isGameRunning() && !game.isPaused() && !game.isGameOver()) {
+                if (
+                    game.isGameRunning() &&
+                    !game.isPaused() &&
+                    !game.isGameOver()
+                ) {
                     if (now - lastUpdate >= game.getTickIntervalNs()) {
                         update();
                         lastUpdate = now;
@@ -92,7 +126,9 @@ public class SnakeController implements Initializable {
                 render();
 
                 if (game.isGameRunning()) {
-                    Platform.runLater(() -> timeLabel.setText(game.getFormattedDuration()));
+                    Platform.runLater(() ->
+                        timeLabel.setText(game.getFormattedDuration())
+                    );
                 }
             }
         };
@@ -103,13 +139,21 @@ public class SnakeController implements Initializable {
         Platform.runLater(() -> {
             Scene scene = gameCanvas.getScene();
             if (scene != null) {
-                scene.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPress);
+                scene.addEventFilter(
+                    KeyEvent.KEY_PRESSED,
+                    this::handleKeyPress
+                );
             } else {
-                gameCanvas.sceneProperty().addListener((obs, oldScene, newScene) -> {
-                    if (newScene != null) {
-                        newScene.addEventFilter(KeyEvent.KEY_PRESSED, this::handleKeyPress);
-                    }
-                });
+                gameCanvas
+                    .sceneProperty()
+                    .addListener((obs, oldScene, newScene) -> {
+                        if (newScene != null) {
+                            newScene.addEventFilter(
+                                KeyEvent.KEY_PRESSED,
+                                this::handleKeyPress
+                            );
+                        }
+                    });
             }
         });
 
@@ -120,7 +164,11 @@ public class SnakeController implements Initializable {
         KeyCode code = event.getCode();
 
         if (code == KeyCode.SPACE) {
-            if (game.isGameRunning() && !game.isGameStarted() && !game.isGameOver()) {
+            if (
+                game.isGameRunning() &&
+                !game.isGameStarted() &&
+                !game.isGameOver()
+            ) {
                 startGameplay();
             } else if (game.isGameRunning() && game.isGameStarted()) {
                 togglePause();
@@ -147,6 +195,9 @@ public class SnakeController implements Initializable {
                     game.handleInput(SnakeDirection.RIGHT);
                     event.consume();
                 }
+                default -> {
+                    // Other keys are ignored
+                }
             }
         }
     }
@@ -156,16 +207,20 @@ public class SnakeController implements Initializable {
         String playerName = playerNameField.getText().trim();
 
         if (playerName.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING,
-                     "Nom requis",
-                     "Veuillez entrer votre nom pour commencer.");
+            showAlert(
+                Alert.AlertType.WARNING,
+                "Nom requis",
+                "Veuillez entrer votre nom pour commencer."
+            );
             return;
         }
 
         if (playerName.length() > 50) {
-            showAlert(Alert.AlertType.WARNING,
-                     "Nom trop long",
-                     "Le nom ne doit pas dépasser 50 caractères.");
+            showAlert(
+                Alert.AlertType.WARNING,
+                "Nom trop long",
+                "Le nom ne doit pas dépasser 50 caractères."
+            );
             return;
         }
 
@@ -185,7 +240,9 @@ public class SnakeController implements Initializable {
 
         render();
 
-        System.out.println("[VT-OS] Snake ready to start for player: " + playerName);
+        System.out.println(
+            "[VT-OS] Snake ready to start for player: " + playerName
+        );
     }
 
     private void startGameplay() {
@@ -197,7 +254,9 @@ public class SnakeController implements Initializable {
     private void togglePause() {
         game.togglePause();
         pauseOverlay.setVisible(game.isPaused());
-        System.out.println("[VT-OS] Game " + (game.isPaused() ? "paused" : "resumed"));
+        System.out.println(
+            "[VT-OS] Game " + (game.isPaused() ? "paused" : "resumed")
+        );
     }
 
     private void update() {
@@ -229,11 +288,21 @@ public class SnakeController implements Initializable {
         int cellSize = SnakeGame.CELL_SIZE;
 
         for (int x = 0; x <= SnakeGame.GRID_WIDTH; x++) {
-            gc.strokeLine(x * cellSize, 0, x * cellSize, SnakeGame.CANVAS_HEIGHT);
+            gc.strokeLine(
+                x * cellSize,
+                0,
+                x * cellSize,
+                SnakeGame.CANVAS_HEIGHT
+            );
         }
 
         for (int y = 0; y <= SnakeGame.GRID_HEIGHT; y++) {
-            gc.strokeLine(0, y * cellSize, SnakeGame.CANVAS_WIDTH, y * cellSize);
+            gc.strokeLine(
+                0,
+                y * cellSize,
+                SnakeGame.CANVAS_WIDTH,
+                y * cellSize
+            );
         }
     }
 
@@ -268,7 +337,13 @@ public class SnakeController implements Initializable {
         }
     }
 
-    private void drawEyes(SnakePoint head, SnakeDirection dir, double x, double y, double size) {
+    private void drawEyes(
+        SnakePoint head,
+        SnakeDirection dir,
+        double x,
+        double y,
+        double size
+    ) {
         gc.setFill(Color.BLACK);
         double eyeSize = size / 5;
         double eyeOffset = size / 4;
@@ -324,13 +399,21 @@ public class SnakeController implements Initializable {
         double glowSize = 4 * pulse;
 
         gc.setFill(COLOR_FOOD_GLOW);
-        gc.fillOval(x - glowSize, y - glowSize,
-                    cellSize + glowSize * 2, cellSize + glowSize * 2);
+        gc.fillOval(
+            x - glowSize,
+            y - glowSize,
+            cellSize + glowSize * 2,
+            cellSize + glowSize * 2
+        );
 
         gc.setFill(COLOR_FOOD);
         double padding = 3;
-        gc.fillOval(x + padding, y + padding,
-                    cellSize - padding * 2, cellSize - padding * 2);
+        gc.fillOval(
+            x + padding,
+            y + padding,
+            cellSize - padding * 2,
+            cellSize - padding * 2
+        );
     }
 
     private void updateDisplays() {
@@ -364,7 +447,8 @@ public class SnakeController implements Initializable {
             } else {
                 System.err.println("[VT-OS ERROR] Failed to save Snake score.");
             }
-        }).start();
+        })
+            .start();
     }
 
     @FXML
@@ -380,7 +464,9 @@ public class SnakeController implements Initializable {
 
         lastUpdate = 0;
 
-        System.out.println("[VT-OS] New Snake game started for: " + game.getPlayerName());
+        System.out.println(
+            "[VT-OS] New Snake game started for: " + game.getPlayerName()
+        );
     }
 
     @FXML
@@ -392,24 +478,37 @@ public class SnakeController implements Initializable {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MinigameHubView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/fxml/MinigameHubView.fxml")
+            );
             Parent hubView = loader.load();
 
-            Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage currentStage = (Stage) (
+                (Node) event.getSource()
+            ).getScene().getWindow();
             Scene scene = new Scene(hubView, 800, 600);
-            scene.getStylesheets().add(getClass().getResource("/css/vault-tec-theme.css").toExternalForm());
+            scene
+                .getStylesheets()
+                .add(
+                    getClass()
+                        .getResource("/css/vault-tec-theme.css")
+                        .toExternalForm()
+                );
 
             currentStage.setScene(scene);
             currentStage.setTitle("Vault-Tec Mini Game Hub");
 
             System.out.println("[VT-OS] Successfully returned to hub.");
-
         } catch (IOException e) {
-            System.err.println("[VT-OS CRITICAL] Failed to return to hub: " + e.getMessage());
+            System.err.println(
+                "[VT-OS CRITICAL] Failed to return to hub: " + e.getMessage()
+            );
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR,
-                     "Erreur de navigation",
-                     "Impossible de retourner au hub principal.");
+            showAlert(
+                Alert.AlertType.ERROR,
+                "Erreur de navigation",
+                "Impossible de retourner au hub principal."
+            );
         }
     }
 
@@ -420,7 +519,13 @@ public class SnakeController implements Initializable {
         alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add(getClass().getResource("/css/vault-tec-theme.css").toExternalForm());
+        dialogPane
+            .getStylesheets()
+            .add(
+                getClass()
+                    .getResource("/css/vault-tec-theme.css")
+                    .toExternalForm()
+            );
 
         alert.showAndWait();
     }
