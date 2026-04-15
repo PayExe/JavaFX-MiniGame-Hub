@@ -165,6 +165,9 @@ public class MinigameContainerController implements Initializable {
                 case "true-or-false":
                     loadTrueOrFalseGame();
                     break;
+                case "snake":
+                    loadSnakeGame();
+                    break;
                 default:
                     // Show placeholder for unimplemented games
                     showPlaceholderContent();
@@ -204,6 +207,20 @@ public class MinigameContainerController implements Initializable {
         contentArea.getChildren().add(gameView);
         System.out.println(
             "[VT-OS] True or False simulation loaded successfully."
+        );
+    }
+
+    /**
+     * Load the Snake game
+     */
+    private void loadSnakeGame() throws IOException {
+        FXMLLoader loader = new FXMLLoader(
+            getClass().getResource("/fxml/games/SnakeView.fxml")
+        );
+        Parent gameView = loader.load();
+        contentArea.getChildren().add(gameView);
+        System.out.println(
+            "[VT-OS] Snake simulation loaded successfully."
         );
     }
 

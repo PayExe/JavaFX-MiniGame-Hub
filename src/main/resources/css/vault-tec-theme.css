@@ -447,6 +447,45 @@
 }
 
 /* ============================================
+    SNAKE GAME STYLES
+    ============================================ */
+.game-snake {
+    -fx-background-color: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+    -fx-padding: 20px;
+}
+
+.game-canvas {
+    -fx-border-color: #3c8dbc;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(gaussian, rgba(60, 141, 188, 0.5), 10, 0, 0, 0);
+}
+
+.controls-hint {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
+    -fx-font-style: italic;
+}
+
+/* Overlay styles for start/pause/game over */
+.overlay-title {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffe600;
+    -fx-effect: dropshadow(gaussian, rgba(255, 230, 0, 0.5), 5, 0, 0, 0);
+}
+
+.overlay-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #cccccc;
+}
+
+.overlay-score {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #28a745;
+}
+
+/* ============================================
     TRUE OR FALSE GAME STYLES
     ============================================ */
 .game-true-or-false {

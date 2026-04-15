@@ -71,6 +71,26 @@ public class DatabaseManager {
             )
             """;
 
+        // Snake Game tables
+        String createSnakePlayersTable = """
+            CREATE TABLE IF NOT EXISTS players_snake (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL UNIQUE
+            )
+            """;
+
+        String createSnakeScoresTable = """
+            CREATE TABLE IF NOT EXISTS scores_snake (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                player_id INTEGER NOT NULL,
+                score INTEGER NOT NULL,
+                snake_length INTEGER NOT NULL,
+                game_duration_ms INTEGER,
+                date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (player_id) REFERENCES players_snake(id)
+            )
+            """;
+
         try (
             Connection conn = getConnection();
             Statement stmt = conn.createStatement()
@@ -83,6 +103,8 @@ public class DatabaseManager {
             stmt.execute(createScoresTable);
             stmt.execute(createPlayerStatsTable);
             stmt.execute(createQuestionsTable);
+            stmt.execute(createSnakePlayersTable);
+            stmt.execute(createSnakeScoresTable);
 
             System.out.println("[VT-OS] Database initialized successfully.");
             System.out.println("[VT-OS] Vault-Tec data storage: OPERATIONAL");
@@ -216,5 +238,140 @@ public class DatabaseManager {
             );
             return false;
         }
+    }
+
+    // ============================================
+    // SNAKE GAME DATABASE METHODS
+    // ============================================
+
+    /**
+     * Get or create a player ID for Snake game
+     *
+     * @param playerName Player name
+     * @return player ID, or -1 if error
+     */
+    public int getOrCreateSnakePlayerId(String playerName) {
+        String selectSQL = "SELECT id FROM players_snake WHERE name = ?";
+        String insertSQL = "INSERT INTO players_snake (name) VALUES (?)";
+
+        try (Connection conn = getConnection()) {
+            // Try to find existing player
+            try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+                pstmt.setString(1, playerName);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+
+            // Create new player
+            try (PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
+                pstmt.setString(1, playerName);
+                pstmt.executeUpdate();
+
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    System.out.println("[VT-OS] New Snake player registered: " + playerName);
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to get/create Snake player: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    /**
+     * Save a Snake game score to the database
+     *
+     * @param playerName Player name
+     * @param score Game score
+     * @param snakeLength Length of snake at game end
+     * @param durationMs Game duration in milliseconds
+     * @return true if save successful, false otherwise
+     */
+    public boolean saveSnakeScore(String playerName, int score, int snakeLength, long durationMs) {
+        String insertSQL = """
+            INSERT INTO scores_snake (player_id, score, snake_length, game_duration_ms)
+            VALUES (?, ?, ?, ?)
+            """;
+
+        int playerId = getOrCreateSnakePlayerId(playerName);
+        if (playerId == -1) {
+            System.err.println("[VT-OS ERROR] Cannot save score - invalid player ID");
+            return false;
+        }
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+
+            pstmt.setInt(1, playerId);
+            pstmt.setInt(2, score);
+            pstmt.setInt(3, snakeLength);
+            pstmt.setLong(4, durationMs);
+            pstmt.executeUpdate();
+
+            System.out.println("[VT-OS] Snake score saved for player: " + playerName);
+            return true;
+
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to save Snake score: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get top Snake scores for leaderboard
+     *
+     * @param limit Number of scores to retrieve
+     * @return ResultSet with player name, score, and date
+     */
+    public ResultSet getTopSnakeScores(int limit) {
+        String sql = """
+            SELECT ps.name, ss.score, ss.snake_length, ss.game_duration_ms, ss.date
+            FROM scores_snake ss
+            JOIN players_snake ps ON ss.player_id = ps.id
+            ORDER BY ss.score DESC
+            LIMIT ?
+            """;
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, limit);
+            return pstmt.executeQuery();
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to retrieve Snake scores: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Get player's best Snake score
+     *
+     * @param playerName Player name
+     * @return Best score, or 0 if no games played
+     */
+    public int getPlayerBestSnakeScore(String playerName) {
+        String sql = """
+            SELECT MAX(ss.score) as best_score
+            FROM scores_snake ss
+            JOIN players_snake ps ON ss.player_id = ps.id
+            WHERE ps.name = ?
+            """;
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, playerName);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("best_score");
+            }
+        } catch (SQLException e) {
+            System.err.println("[VT-OS ERROR] Failed to get best Snake score: " + e.getMessage());
+        }
+        return 0;
     }
 }

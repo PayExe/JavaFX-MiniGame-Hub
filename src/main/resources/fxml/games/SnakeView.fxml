@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>  
+<?import javafx.scene.control.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<!-- 
+    Vault-Tec View: Snake Game
+    French language interface for the classic serpentine simulation.
+    S.P.E.C.I.A.L. Stats: Agility (responsive controls), Perception (clear display)
+-->
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      xmlns="http://javafx.com/javafx/17"
+      fx:controller="dev.skypaolo.controller.games.SnakeController"
+      styleClass="game-snake"
+      spacing="15"
+      alignment="CENTER">
+    
+    <padding>
+        <Insets top="20" right="30" bottom="20" left="30"/>
+    </padding>
+    
+    <!-- Header: Title + Score Display -->
+    <HBox spacing="30" alignment="CENTER">
+        <Label styleClass="game-title" text="SNAKE">
+            <font>
+                <Font name="System Bold" size="32"/>
+            </font>
+        </Label>
+        
+        <VBox alignment="CENTER_LEFT" spacing="3">
+            <Label text="Score:" styleClass="info-label"/>
+            <Label fx:id="scoreLabel" text="0" styleClass="score-value">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+        </VBox>
+        
+        <VBox alignment="CENTER_LEFT" spacing="3">
+            <Label text="Longueur:" styleClass="info-label"/>
+            <Label fx:id="lengthLabel" text="3" styleClass="info-value">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+        </VBox>
+        
+        <VBox alignment="CENTER_LEFT" spacing="3">
+            <Label text="Temps:" styleClass="info-label"/>
+            <Label fx:id="timeLabel" text="00:00" styleClass="info-value">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+            </Label>
+        </VBox>
+    </HBox>
+    
+    <Separator styleClass="vault-separator"/>
+    
+    <!-- Player Name Input Section (Initial State) -->
+    <VBox fx:id="nameInputSection" spacing="15" alignment="CENTER">
+        <Label styleClass="section-title" text="Entrez votre nom:" />
+        
+        <TextField fx:id="playerNameField"
+                   styleClass="game-input"
+                   promptText="Nom du joueur"
+                   maxWidth="250"
+                   alignment="CENTER"/>
+        
+        <Button fx:id="startButton"
+                styleClass="vault-button, start-button"
+                text="COMMENCER"
+                onAction="#handleStartGame"
+                maxWidth="200"/>
+    </VBox>
+    
+    <!-- Game Area Section (Hidden Initially) -->
+    <StackPane fx:id="gameArea" visible="false" managed="false">
+        
+        <!-- Game Canvas -->
+        <Canvas fx:id="gameCanvas" 
+                width="400" 
+                height="300"
+                styleClass="game-canvas"/>
+        
+        <!-- Start Overlay -->
+        <VBox fx:id="startOverlay" 
+              spacing="10" 
+              alignment="CENTER"
+              style="-fx-background-color: rgba(0,0,0,0.7);">
+            <Label text="PRET?" styleClass="overlay-title"/>
+            <Label text="Appuyez sur ESPACE pour commencer" 
+                   styleClass="overlay-subtitle"/>
+        </VBox>
+        
+        <!-- Pause Overlay -->
+        <VBox fx:id="pauseOverlay" 
+              spacing="10" 
+              alignment="CENTER"
+              visible="false"
+              style="-fx-background-color: rgba(0,0,0,0.7);">
+            <Label text="PAUSE" styleClass="overlay-title"/>
+            <Label text="Appuyez sur ESPACE pour reprendre" 
+                   styleClass="overlay-subtitle"/>
+        </VBox>
+        
+        <!-- Game Over Overlay -->
+        <VBox fx:id="gameOverOverlay" 
+              spacing="15" 
+              alignment="CENTER"
+              visible="false"
+              style="-fx-background-color: rgba(0,0,0,0.85);">
+            <Label text="GAME OVER" styleClass="overlay-title"/>
+            <Label fx:id="finalScoreLabel" 
+                   text="Score: 0" 
+                   styleClass="overlay-score"/>
+            <Label fx:id="finalLengthLabel"
+                   text="Longueur: 3"
+                   styleClass="overlay-subtitle"/>
+            <Button fx:id="newGameButton"
+                    styleClass="vault-button, start-button"
+                    text="REJOUER"
+                    onAction="#handleNewGame"/>
+        </VBox>
+        
+    </StackPane>
+    
+    <!-- Controls Hint -->
+    <Label fx:id="controlsHint"
+           text="Fleches directionnelles pour bouger | ESPACE pour pause" 
+           styleClass="controls-hint"
+           visible="false"/>
+    
+    <!-- Action Buttons -->
+    <HBox spacing="15" alignment="CENTER">
+        <Button fx:id="backToHubButton"
+                styleClass="vault-button, back-button"
+                text="RETOUR AU HUB"
+                onAction="#handleBackToHub"/>
+    </HBox>
+    
+</VBox>

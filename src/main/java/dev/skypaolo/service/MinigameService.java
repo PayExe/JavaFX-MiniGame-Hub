@@ -51,6 +51,18 @@ public class MinigameService {
                 "/images/placeholders/true-or-false-placeholder.png"
             )
         );
+
+        // Game 3: Snake (Implemented per specification)
+        minigames.add(
+            new Minigame(
+                "snake",
+                "Snake",
+                "Contrôlez un serpent qui grandit en mangeant de la nourriture. " +
+                "Évitez les murs et votre propre queue! " +
+                "Difficulté: Difficile | Points: 6",
+                "/images/placeholders/snake-placeholder.png"
+            )
+        );
     }
 
     /**
