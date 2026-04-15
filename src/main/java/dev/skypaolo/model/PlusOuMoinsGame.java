@@ -2,20 +2,6 @@ package dev.skypaolo.model;
 
 import java.util.Random;
 
-/**
- * Vault-Tec Model: Plus ou Moins Game Logic
- * Manages the state and rules of the "Jeu du + ou -" simulation.
- * 
- * Game Rules (per specification):
- * - Secret number between 1 and 1000
- * - Maximum 10 attempts
- * - Score = (maxAttempts - attempts) * 10 when won, 0 when lost
- * 
- * S.P.E.C.I.A.L. Stats:
- * - Intelligence: Random number generation and scoring algorithm
- * - Perception: Input validation and state tracking
- * - Endurance: Maintains game state through multiple rounds
- */
 public class PlusOuMoinsGame {
     
     private static final int MIN_NUMBER = 1;
@@ -29,19 +15,13 @@ public class PlusOuMoinsGame {
     private GameState state;
     private final Random random;
     
-    /**
-     * Game state enumeration
-     */
     public enum GameState {
-        WAITING,    // Waiting for player name
-        PLAYING,    // Game in progress
-        WON,        // Player won
-        LOST        // Player lost (max attempts reached)
+        WAITING,
+        PLAYING,
+        WON,
+        LOST
     }
     
-    /**
-     * Constructor - Initialize game
-     */
     public PlusOuMoinsGame() {
         this.random = new Random();
         this.state = GameState.WAITING;
@@ -49,11 +29,6 @@ public class PlusOuMoinsGame {
         this.score = 0;
     }
     
-    /**
-     * Start a new game with the given player name
-     * 
-     * @param playerName The player's name (session-persistent)
-     */
     public void startNewGame(String playerName) {
         this.playerName = playerName;
         this.secretNumber = generateSecretNumber();
@@ -65,35 +40,21 @@ public class PlusOuMoinsGame {
         System.out.println("[VT-OS] Secret number generated (Vault-Tec classified).");
     }
     
-    /**
-     * Generate a random secret number between MIN_NUMBER and MAX_NUMBER
-     * Vault-Tec certified random number generator
-     */
     private int generateSecretNumber() {
         return random.nextInt(MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
     }
     
-    /**
-     * Make a guess and get the result
-     * 
-     * @param guess The number guessed by the player
-     * @return GuessResult indicating the outcome
-     */
     public GuessResult makeGuess(int guess) {
-        // Check if game is already over
         if (state == GameState.WON || state == GameState.LOST) {
             return GuessResult.GAME_OVER;
         }
         
-        // Validate input range
         if (guess < MIN_NUMBER || guess > MAX_NUMBER) {
             return GuessResult.INVALID;
         }
         
-        // Increment attempts
         attempts++;
         
-        // Check the guess
         if (guess == secretNumber) {
             state = GameState.WON;
             score = calculateScore();
@@ -109,20 +70,10 @@ public class PlusOuMoinsGame {
         }
     }
     
-    /**
-     * Calculate score based on remaining attempts
-     * Formula: (maxAttempts - attempts) * 10
-     * 
-     * @return The calculated score
-     */
     private int calculateScore() {
         return (MAX_ATTEMPTS - attempts) * 10;
     }
     
-    /**
-     * Reset the game state but keep the player name
-     * Used for "Nouvelle Partie" functionality
-     */
     public void resetGame() {
         if (playerName != null && !playerName.isEmpty()) {
             startNewGame(playerName);
@@ -133,28 +84,17 @@ public class PlusOuMoinsGame {
         }
     }
     
-    /**
-     * Check if the game is over
-     */
     public boolean isGameOver() {
         return state == GameState.WON || state == GameState.LOST;
     }
     
-    /**
-     * Check if the player has won
-     */
     public boolean isWon() {
         return state == GameState.WON;
     }
     
-    /**
-     * Check if the player has lost
-     */
     public boolean isLost() {
         return state == GameState.LOST;
     }
-    
-    // ==================== GETTERS ====================
     
     public int getSecretNumber() {
         return secretNumber;

@@ -19,12 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-/**
- * Vault-Tec Controller: Minigame Container
- * Manages the container view with header and content area for minigames.
- * Provides navigation back to the main hub.
- * S.P.E.C.I.A.L. Stats: Perception (navigation), Endurance (content management)
- */
 public class MinigameContainerController implements Initializable {
 
     @FXML
@@ -49,37 +43,22 @@ public class MinigameContainerController implements Initializable {
         System.out.println("[VT-OS] Minigame Container initialized.");
     }
 
-    /**
-     * Set the minigame data for this container
-     * Updates the header information and automatically loads the game content
-     */
     public void setMinigame(Minigame minigame) {
         this.currentMinigame = minigame;
-
-        // Update header info
         minigameTitle.setText(minigame.getTitle());
-
-        // Load minigame icon
         loadMinigameIcon(minigame.getImagePath());
-
         System.out.println(
             "[VT-OS] Loaded minigame container for: " + minigame.getTitle()
         );
-
-        // Automatically load the game content
         loadGameContent();
     }
 
-    /**
-     * Load the minigame icon/image
-     */
     private void loadMinigameIcon(String imagePath) {
         try {
             Image image = new Image(getClass().getResourceAsStream(imagePath));
             if (!image.isError()) {
                 minigameIcon.setImage(image);
             } else {
-                // Use placeholder if image fails to load
                 Image placeholder = new Image(
                     getClass().getResourceAsStream(
                         "/images/placeholders/default-placeholder.png"
@@ -94,29 +73,22 @@ public class MinigameContainerController implements Initializable {
         }
     }
 
-    /**
-     * Handle back button click - return to main hub
-     * PRESERVES window size during transition - Vault-Tec UX Standard
-     */
     @FXML
     public void handleBackToHub(ActionEvent event) {
         System.out.println("[VT-OS] Returning to Mini Game Hub...");
 
         try {
-            // Load the hub view
             FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/fxml/MinigameHubView.fxml")
             );
             Parent hubView = loader.load();
 
-            // Get current stage and preserve dimensions
             Stage currentStage = (Stage) (
                 (Node) event.getSource()
             ).getScene().getWindow();
             double currentWidth = currentStage.getWidth();
             double currentHeight = currentStage.getHeight();
 
-            // Create new scene WITHOUT hardcoded dimensions
             Scene scene = new Scene(hubView);
             scene
                 .getStylesheets()
@@ -126,11 +98,8 @@ public class MinigameContainerController implements Initializable {
                         .toExternalForm()
                 );
 
-            // Transition back to hub while preserving window size
             currentStage.setScene(scene);
             currentStage.setTitle("Vault-Tec Mini Game Hub");
-            
-            // Restore preserved dimensions
             currentStage.setWidth(currentWidth);
             currentStage.setHeight(currentHeight);
 
@@ -146,10 +115,6 @@ public class MinigameContainerController implements Initializable {
         }
     }
 
-    /**
-     * Load the game content automatically
-     * Called when setMinigame is invoked
-     */
     private void loadGameContent() {
         if (currentMinigame == null) {
             System.err.println("[Vault-Tec Error] No minigame selected!");
@@ -160,11 +125,9 @@ public class MinigameContainerController implements Initializable {
             "[VT-OS] Loading simulation: " + currentMinigame.getTitle()
         );
 
-        // Clear the loading content and load the actual game
         contentArea.getChildren().clear();
 
         try {
-            // Load the specific minigame based on ID
             switch (currentMinigame.getId()) {
                 case "plus-ou-moins":
                     loadPlusOuMoinsGame();
@@ -179,7 +142,6 @@ public class MinigameContainerController implements Initializable {
                     loadBlackjackGame();
                     break;
                 default:
-                    // Show placeholder for unimplemented games
                     showPlaceholderContent();
                     break;
             }
@@ -192,9 +154,6 @@ public class MinigameContainerController implements Initializable {
         }
     }
 
-    /**
-     * Load the Plus ou Moins game
-     */
     private void loadPlusOuMoinsGame() throws IOException {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/fxml/games/PlusOuMoinsView.fxml")
@@ -206,9 +165,6 @@ public class MinigameContainerController implements Initializable {
         );
     }
 
-    /**
-     * Load the True or False game
-     */
     private void loadTrueOrFalseGame() throws IOException {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/fxml/games/TrueOrFalseView.fxml")
@@ -220,9 +176,6 @@ public class MinigameContainerController implements Initializable {
         );
     }
 
-    /**
-     * Load the Snake game
-     */
     private void loadSnakeGame() throws IOException {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/fxml/games/SnakeView.fxml")
@@ -234,9 +187,6 @@ public class MinigameContainerController implements Initializable {
         );
     }
 
-    /**
-     * Load the Blackjack game
-     */
     private void loadBlackjackGame() throws IOException {
         FXMLLoader loader = new FXMLLoader(
             getClass().getResource("/fxml/games/BlackjackView.fxml")
@@ -248,9 +198,6 @@ public class MinigameContainerController implements Initializable {
         );
     }
 
-    /**
-     * Show placeholder content for unimplemented games
-     */
     private void showPlaceholderContent() {
         VBox placeholder = new VBox(20);
         placeholder.setAlignment(javafx.geometry.Pos.CENTER);
@@ -294,9 +241,6 @@ public class MinigameContainerController implements Initializable {
         contentArea.getChildren().add(placeholder);
     }
 
-    /**
-     * Show error content when game fails to load
-     */
     private void showErrorContent() {
         VBox errorBox = new VBox(20);
         errorBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -324,26 +268,15 @@ public class MinigameContainerController implements Initializable {
         contentArea.getChildren().add(errorBox);
     }
 
-    /**
-     * Reset the content area and reload the game
-     * Used when returning from an error state
-     */
     private void resetContentArea() {
         contentArea.getChildren().clear();
         loadGameContent();
     }
 
-    /**
-     * Get the content area for external minigame integration
-     * This allows external controllers to inject their game views
-     */
     public StackPane getContentArea() {
         return contentArea;
     }
 
-    /**
-     * Get the current minigame
-     */
     public Minigame getCurrentMinigame() {
         return currentMinigame;
     }

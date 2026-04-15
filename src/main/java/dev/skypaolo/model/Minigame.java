@@ -3,11 +3,6 @@ package dev.skypaolo.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-/**
- * Vault-Tec Model: Minigame Data Structure
- * Represents a mini game entry in the hub with title, description, and image.
- * S.P.E.C.I.A.L. Stats: Intelligence (data structure), Charisma (presentation)
- */
 public class Minigame {
     
     private final StringProperty id;
@@ -22,7 +17,6 @@ public class Minigame {
         this.imagePath = new SimpleStringProperty(imagePath);
     }
     
-    // ID Property
     public String getId() {
         return id.get();
     }
@@ -35,7 +29,6 @@ public class Minigame {
         return id;
     }
     
-    // Title Property
     public String getTitle() {
         return title.get();
     }
@@ -48,7 +41,6 @@ public class Minigame {
         return title;
     }
     
-    // Description Property
     public String getDescription() {
         return description.get();
     }
@@ -61,7 +53,6 @@ public class Minigame {
         return description;
     }
     
-    // Image Path Property
     public String getImagePath() {
         return imagePath.get();
     }

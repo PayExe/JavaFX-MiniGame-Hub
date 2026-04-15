@@ -1,7 +1,5 @@
 package dev.skypaolo.controller.games;
 
-// j'importe tout ce dont j'ai besoin
-
 import dev.skypaolo.model.Question;
 import dev.skypaolo.service.QuestionService;
 import java.io.IOException;
@@ -22,36 +20,22 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-// Contrôleur qui gèrele jeu.
-// Affiche les questions
-// Vérifire les réponses
-// Met à jour le score
-// Gère l'ajout des questions.s
-
 public class TrueOrFalseController {
 
-    // Ici je demande au service les questions
     private final QuestionService questionService = new QuestionService();
 
-    // Liste des questions dans l'ordre
     private List<Question> questionQueue;
 
-    //Index de la question en cours
     private int questionIndex = 0;
 
-    // Score du joueur
     private int score = 0;
 
-    // Le nombre de questions max par partie.
     private final int maxQuestions = 10;
 
-    // Groupe de boutons pour forcer un seul choix entre vrai et faux.
     private final ToggleGroup answerSelectionGroup = new ToggleGroup();
 
-    // Bool de l'état de la partie.
     private boolean gameOver = false;
 
-    // Les éléments FXML.
     @FXML
     private Label scoreLabel;
 
@@ -97,13 +81,11 @@ public class TrueOrFalseController {
     @FXML
     private ToggleButton falseToggle;
 
-    // On initialise le jeu, c'est appelé automatiquement.
     @FXML
     public void initialize() {
         startNewGame();
     }
 
-    // Lance une nouvelle partie.
     private void startNewGame() {
         questionQueue = questionService.getShuffledQuestions();
         if (questionQueue.size() > maxQuestions) {
@@ -122,7 +104,6 @@ public class TrueOrFalseController {
             .removeAll("feedback-win", "feedback-loss");
         feedbackLabel.setOpacity(1.0);
 
-        // Associe les deux boutons à un seul groupe pour n'autoriser qu'un seul choix.
         trueToggle.setToggleGroup(answerSelectionGroup);
         falseToggle.setToggleGroup(answerSelectionGroup);
         trueToggle.setSelected(true);
@@ -132,7 +113,6 @@ public class TrueOrFalseController {
         setButtonsEnabled(true);
     }
 
-    // Affiche la question actuelle.
     private void showCurrentQuestion() {
         if (questionIndex < questionQueue.size()) {
             Question currentQuestion = questionQueue.get(questionIndex);
@@ -143,7 +123,6 @@ public class TrueOrFalseController {
         }
     }
 
-    // Vérifie la réponse du joueur
     private void checkAnswer(boolean expectedAnswer) {
         if (gameOver || questionIndex >= questionQueue.size()) {
             return;
@@ -170,7 +149,6 @@ public class TrueOrFalseController {
 
         scoreLabel.setText(String.valueOf(score));
 
-        // Fondu
         FadeTransition fade = new FadeTransition(
             Duration.millis(200),
             feedbackLabel
@@ -179,7 +157,6 @@ public class TrueOrFalseController {
         fade.setToValue(1.0);
         fade.play();
 
-        // Pause le temps que le joueur lise le message avant de passer à la question suivante.
         PauseTransition pause = new PauseTransition(Duration.seconds(1.2));
         pause.setOnFinished(e -> {
             questionIndex++;
@@ -197,7 +174,6 @@ public class TrueOrFalseController {
         pause.play();
     }
 
-    // Ca mets fin à la partie (désactive les boutons et affiche le score)
     private void endGame() {
         gameOver = true;
         gameStateLabel.setText("Terminée");
@@ -212,14 +188,12 @@ public class TrueOrFalseController {
         setButtonsEnabled(false);
     }
 
-    // Active ou désactive les boutons du jeu.
     private void setButtonsEnabled(boolean enabled) {
         trueButton.setDisable(!enabled);
         falseButton.setDisable(!enabled);
         nextGameButton.setDisable(!enabled);
     }
 
-    // Mets à jour l'affichage du compteur de questions.
     private void updateQuestionCounter() {
         questionIndexLabel.setText(
             (Math.min(questionIndex + 1, questionQueue.size())) +
@@ -228,19 +202,16 @@ public class TrueOrFalseController {
         );
     }
 
-    // Appelé quand le joueur clique sur vrai.
     @FXML
     public void handleTrue(ActionEvent event) {
         checkAnswer(true);
     }
 
-    // Appelé quand le joueur clique sur faux
     @FXML
     public void handleFalse(ActionEvent event) {
         checkAnswer(false);
     }
 
-    // Bouton pour passer à la question suivante.
     @FXML
     public void handleNextQuestion(ActionEvent event) {
         if (!gameOver) {
@@ -258,7 +229,6 @@ public class TrueOrFalseController {
         }
     }
 
-    // Permet d'ajouter une nouvelle question.
     @FXML
     public void handleAddQuestion(ActionEvent event) {
         String text = newQuestionField.getText().trim();
@@ -287,7 +257,6 @@ public class TrueOrFalseController {
         feedbackLabel.setText("Question ajoutée avec succès !");
     }
 
-    // Retour au hub.
     @FXML
     public void handleBackToHub(ActionEvent event) {
         try {

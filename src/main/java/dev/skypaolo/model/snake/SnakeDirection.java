@@ -1,16 +1,5 @@
 package dev.skypaolo.model.snake;
 
-/**
- * Vault-Tec Enumeration: Snake Direction
- * Represents the four cardinal directions the serpent may traverse.
- *
- * S.P.E.C.I.A.L. Stats:
- * - Intelligence: Opposite direction calculation prevents self-collision
- * - Perception: Clear directional mapping for input handling
- *
- * Vault-Tec Safety Notice: 180-degree turns are strictly prohibited
- * per Vault-Tec Directive 7-B: "Serpentine entities must not consume themselves."
- */
 public enum SnakeDirection {
     UP(0, -1),
     DOWN(0, 1),
@@ -33,13 +22,6 @@ public enum SnakeDirection {
         return deltaY;
     }
 
-    /**
-     * Determine if this direction is opposite to another.
-     * Essential for preventing the snake from reversing into itself.
-     *
-     * @param other The direction to compare
-     * @return true if directions are opposite
-     */
     public boolean isOpposite(SnakeDirection other) {
         if (other == null) return false;
         return (this == UP && other == DOWN) ||
@@ -48,12 +30,6 @@ public enum SnakeDirection {
                (this == RIGHT && other == LEFT);
     }
 
-    /**
-     * Get a random direction for initial spawn or AI.
-     * Vault-Tec recommends: Always spawn moving away from walls!
-     *
-     * @return Random direction
-     */
     public static SnakeDirection getRandom() {
         SnakeDirection[] directions = values();
         return directions[(int) (Math.random() * directions.length)];

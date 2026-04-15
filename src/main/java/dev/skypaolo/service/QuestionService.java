@@ -12,27 +12,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-// utile pour charger et enregistrer les questions du jeu
-// utile pour garder une liste en mémoire pour la partie
-// utile pour ajouter des questions de base si la base est vide
 public class QuestionService {
 
-    // utile pour accéder à la base de données
     private final DatabaseManager databaseManager;
-
-    // utile pour stocker les questions chargées en mémoire
     private final List<Question> questions = new ArrayList<>();
-
-    // utile pour mélanger les questions
     private final Random random = new Random();
 
-    // utile pour initialiser le service au démarrage
     public QuestionService() {
         this.databaseManager = DatabaseManager.getInstance();
         initializeQuestions();
     }
 
-    // utile pour charger la base puis les questions de départ
     private void initializeQuestions() {
         loadQuestionsFromDatabase();
 
@@ -42,7 +32,6 @@ public class QuestionService {
         }
     }
 
-    // utile pour charger les questions depuis SQLite
     private void loadQuestionsFromDatabase() {
         questions.clear();
 
@@ -71,7 +60,6 @@ public class QuestionService {
         }
     }
 
-    // utile pour remplir la base au premier lancement
     private void insertDefaultQuestionsIfNeeded() {
         List<Question> defaultQuestions = getDefaultQuestions();
 
@@ -106,7 +94,6 @@ public class QuestionService {
         }
     }
 
-    // utile pour créer les questions de départ
     private List<Question> getDefaultQuestions() {
         List<Question> defaultQuestions = new ArrayList<>();
 
@@ -169,19 +156,16 @@ public class QuestionService {
         return defaultQuestions;
     }
 
-    // utile pour retourner toutes les questions
     public List<Question> getAllQuestions() {
         return Collections.unmodifiableList(questions);
     }
 
-    // utile pour mélanger les questions avant une partie
     public List<Question> getShuffledQuestions() {
         List<Question> shuffled = new ArrayList<>(questions);
         Collections.shuffle(shuffled, random);
         return shuffled;
     }
 
-    // utile pour enregistrer une nouvelle question
     public void addQuestion(Question question) {
         String sql =
             "INSERT INTO questions (text, answer, category) VALUES (?, ?, ?)";
@@ -219,18 +203,14 @@ public class QuestionService {
             );
             System.err.println("[VT-OS ERROR] " + e.getMessage());
             e.printStackTrace();
-
-            // utile pour ne pas perdre la question si la base échoue
             questions.add(question);
         }
     }
 
-    // utile pour connaître le nombre de questions
     public int getQuestionCount() {
         return questions.size();
     }
 
-    // utile pour recharger les questions depuis la base
     public void refresh() {
         loadQuestionsFromDatabase();
     }

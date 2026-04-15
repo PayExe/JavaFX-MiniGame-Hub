@@ -6,31 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * Vault-Tec Mini Game Hub - Main Application Entry Point
- * VT-OS/OPENCODE v84.2.39 - Serial: VTC-2077-OC-4111
- * 
- * S.P.E.C.I.A.L. Stats:
- * - Strength: Robust architecture
- * - Perception: Clean separation of concerns
- * - Endurance: Singleton service management
- * - Charisma: Beautiful Vault-Tec themed UI
- * - Intelligence: MVC pattern implementation
- * - Agility: Responsive flow layout
- * - Luck: 2 example minigames pre-loaded!
- */
 public class App extends Application {
 
-    /**
-     * Application dimensions - Vault-Tec standard viewport (HD Edition)
-     */
     private static final double APP_WIDTH = 1280;
     private static final double APP_HEIGHT = 720;
     private static final String APP_TITLE = "Vault-Tec Mini Game Hub";
-    
-    /**
-     * Resource paths - Vault-Tec directory structure
-     */
     private static final String HUB_VIEW_PATH = "/fxml/MinigameHubView.fxml";
     private static final String CSS_THEME_PATH = "/css/vault-tec-theme.css";
 
@@ -46,23 +26,14 @@ public class App extends Application {
         System.out.println("[VT-OS] Loading Vault-Tec branded interface...");
         
         try {
-            // Load the Mini Game Hub view
             FXMLLoader loader = new FXMLLoader(getClass().getResource(HUB_VIEW_PATH));
             Parent root = loader.load();
-            
-            // Create scene with Vault-Tec dimensions
             Scene scene = new Scene(root, APP_WIDTH, APP_HEIGHT);
-            
-            // Apply Vault-Tec CSS theme
             scene.getStylesheets().add(getClass().getResource(CSS_THEME_PATH).toExternalForm());
-            
-            // Configure stage - Vault-Tec HD standard with minimum safe dimensions
             stage.setTitle(APP_TITLE);
             stage.setScene(scene);
             stage.setMinWidth(800);
             stage.setMinHeight(600);
-            
-            // Show the application
             stage.show();
             
             System.out.println("[VT-OS] Mini Game Hub launched successfully!");
@@ -76,7 +47,6 @@ public class App extends Application {
             System.err.println("[VT-OS ERROR] " + e.getMessage());
             e.printStackTrace();
             
-            // Fallback to error display
             javafx.scene.control.Label errorLabel = new javafx.scene.control.Label(
                 "[CRITICAL ERROR] Vault-Tec systems failed to initialize.\n" +
                 "Error: " + e.getMessage() + "\n\n" +

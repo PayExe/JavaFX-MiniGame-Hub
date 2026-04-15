@@ -1,35 +1,16 @@
 package dev.skypaolo.database;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 
-/**
- * Vault-Tec Database Manager
- * Manages SQLite database connections and operations for the Mini Game Hub.
- *
- * S.P.E.C.I.A.L. Stats:
- * - Intelligence: Complex SQL operations
- * - Endurance: Connection pooling and error handling
- * - Perception: Query optimization
- *
- * Database Location: data/vault_tec_games.db (Project directory)
- * Vault-Tec is not responsible for any data corruption due to RadRoach infestation.
- */
 public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:data/vault_tec_games.db";
     private static DatabaseManager instance;
 
-    /**
-     * Private constructor - Vault-Tec approved singleton pattern
-     */
     private DatabaseManager() {
         initializeDatabase();
     }
 
-    /**
-     * Get singleton instance
-     */
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
@@ -37,10 +18,6 @@ public class DatabaseManager {
         return instance;
     }
 
-    /**
-     * Initialize database - create tables if they don't exist
-     * Vault-Tec standard database schema deployment
-     */
     private void initializeDatabase() {
         String createScoresTable = """
             CREATE TABLE IF NOT EXISTS scores_plus_ou_moins (
@@ -71,7 +48,6 @@ public class DatabaseManager {
             )
             """;
 
-        // Snake Game tables
         String createSnakePlayersTable = """
             CREATE TABLE IF NOT EXISTS players_snake (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,7 +67,6 @@ public class DatabaseManager {
             )
             """;
 
-        // Blackjack Game tables
         String createBlackjackPlayersTable = """
             CREATE TABLE IF NOT EXISTS players_blackjack (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -118,11 +93,9 @@ public class DatabaseManager {
             Connection conn = getConnection();
             Statement stmt = conn.createStatement()
         ) {
-            // Enable foreign keys and WAL mode for better performance
             stmt.execute("PRAGMA foreign_keys = ON");
             stmt.execute("PRAGMA journal_mode = WAL");
 
-            // Create tables
             stmt.execute(createScoresTable);
             stmt.execute(createPlayerStatsTable);
             stmt.execute(createQuestionsTable);
@@ -142,22 +115,10 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Get database connection
-     */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL);
     }
 
-    /**
-     * Save a game result to the database
-     *
-     * @param playerName Player name
-     * @param score Calculated score
-     * @param attemptsUsed Number of attempts used
-     * @param secretNumber The secret number that was guessed
-     * @return true if save successful, false otherwise
-     */
     public boolean saveGameResult(
         String playerName,
         int score,
@@ -185,7 +146,6 @@ public class DatabaseManager {
             conn.setAutoCommit(false);
 
             try {
-                // Insert score record
                 try (
                     PreparedStatement pstmt = conn.prepareStatement(
                         insertScoreSQL
@@ -198,7 +158,6 @@ public class DatabaseManager {
                     pstmt.executeUpdate();
                 }
 
-                // Update player stats
                 try (
                     PreparedStatement pstmt = conn.prepareStatement(
                         upsertStatsSQL
@@ -227,12 +186,6 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Get player statistics
-     *
-     * @param playerName Player name
-     * @return ResultSet with player stats, or null if not found
-     */
     public ResultSet getPlayerStats(String playerName) {
         String sql = "SELECT * FROM player_stats WHERE player_name = ?";
 
@@ -250,10 +203,6 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Test database connection
-     * Vault-Tec diagnostic routine
-     */
     public boolean testConnection() {
         try (Connection conn = getConnection()) {
             return conn != null && !conn.isClosed();
@@ -265,22 +214,11 @@ public class DatabaseManager {
         }
     }
 
-    // ============================================
-    // SNAKE GAME DATABASE METHODS
-    // ============================================
-
-    /**
-     * Get or create a player ID for Snake game
-     *
-     * @param playerName Player name
-     * @return player ID, or -1 if error
-     */
     public int getOrCreateSnakePlayerId(String playerName) {
         String selectSQL = "SELECT id FROM players_snake WHERE name = ?";
         String insertSQL = "INSERT INTO players_snake (name) VALUES (?)";
 
         try (Connection conn = getConnection()) {
-            // Try to find existing player
             try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
                 pstmt.setString(1, playerName);
                 ResultSet rs = pstmt.executeQuery();
@@ -289,7 +227,6 @@ public class DatabaseManager {
                 }
             }
 
-            // Create new player
             try (PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setString(1, playerName);
                 pstmt.executeUpdate();
@@ -306,15 +243,6 @@ public class DatabaseManager {
         return -1;
     }
 
-    /**
-     * Save a Snake game score to the database
-     *
-     * @param playerName Player name
-     * @param score Game score
-     * @param snakeLength Length of snake at game end
-     * @param durationMs Game duration in milliseconds
-     * @return true if save successful, false otherwise
-     */
     public boolean saveSnakeScore(String playerName, int score, int snakeLength, long durationMs) {
         String insertSQL = """
             INSERT INTO scores_snake (player_id, score, snake_length, game_duration_ms)
@@ -345,12 +273,6 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Get top Snake scores for leaderboard
-     *
-     * @param limit Number of scores to retrieve
-     * @return ResultSet with player name, score, and date
-     */
     public ResultSet getTopSnakeScores(int limit) {
         String sql = """
             SELECT ps.name, ss.score, ss.snake_length, ss.game_duration_ms, ss.date
@@ -371,12 +293,6 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * Get player's best Snake score
-     *
-     * @param playerName Player name
-     * @return Best score, or 0 if no games played
-     */
     public int getPlayerBestSnakeScore(String playerName) {
         String sql = """
             SELECT MAX(ss.score) as best_score
@@ -400,22 +316,11 @@ public class DatabaseManager {
         return 0;
     }
 
-    // ============================================
-    // BLACKJACK GAME DATABASE METHODS
-    // ============================================
-
-    /**
-     * Get or create a Blackjack player and return their ID
-     *
-     * @param playerName Player name
-     * @return player ID, or -1 if error
-     */
     public int getOrCreateBlackjackPlayerId(String playerName) {
         String selectSQL = "SELECT id FROM players_blackjack WHERE name = ?";
         String insertSQL = "INSERT INTO players_blackjack (name, balance) VALUES (?, 1000)";
 
         try (Connection conn = getConnection()) {
-            // Try to find existing player
             try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
                 pstmt.setString(1, playerName);
                 ResultSet rs = pstmt.executeQuery();
@@ -424,7 +329,6 @@ public class DatabaseManager {
                 }
             }
 
-            // Create new player
             try (PreparedStatement pstmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
                 pstmt.setString(1, playerName);
                 pstmt.executeUpdate();
@@ -441,12 +345,6 @@ public class DatabaseManager {
         return -1;
     }
 
-    /**
-     * Get player's current balance
-     *
-     * @param playerId Player ID
-     * @return Current balance, or 0 if not found
-     */
     public int getBlackjackPlayerBalance(int playerId) {
         String sql = "SELECT balance FROM players_blackjack WHERE id = ?";
 
@@ -465,13 +363,6 @@ public class DatabaseManager {
         return 0;
     }
 
-    /**
-     * Update player's balance
-     *
-     * @param playerId Player ID
-     * @param newBalance New balance amount
-     * @return true if successful
-     */
     public boolean updateBlackjackPlayerBalance(int playerId, int newBalance) {
         String sql = "UPDATE players_blackjack SET balance = ? WHERE id = ?";
 
@@ -489,17 +380,6 @@ public class DatabaseManager {
         return false;
     }
 
-    /**
-     * Save a Blackjack game result to the database
-     *
-     * @param playerId Player ID
-     * @param bet The bet amount
-     * @param result Game result (WIN, LOSS, PUSH, BLACKJACK_WIN, DEALER_BLACKJACK)
-     * @param balanceAfter Balance after the game
-     * @param playerHandValue Player's hand value
-     * @param dealerHandValue Dealer's hand value
-     * @return true if save successful
-     */
     public boolean saveBlackjackGameResult(int playerId, int bet, String result, 
                                            int balanceAfter, int playerHandValue, int dealerHandValue) {
         String insertSQL = """
@@ -527,13 +407,6 @@ public class DatabaseManager {
         return false;
     }
 
-    /**
-     * Get player's Blackjack game history
-     *
-     * @param playerId Player ID
-     * @param limit Number of records to retrieve
-     * @return ResultSet with game history
-     */
     public ResultSet getBlackjackGameHistory(int playerId, int limit) {
         String sql = """
             SELECT bet, result, balance_after, player_hand_value, dealer_hand_value, date

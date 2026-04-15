@@ -4,11 +4,6 @@ import dev.skypaolo.model.Minigame;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-/**
- * Vault-Tec Service: Minigame Data Provider
- * Provides mini game data for the hub interface.
- * S.P.E.C.I.A.L. Stats: Intelligence (data management), Luck (variety)
- */
 public class MinigameService {
 
     private static MinigameService instance;
@@ -19,9 +14,6 @@ public class MinigameService {
         initializeExampleMinigames();
     }
 
-    /**
-     * Singleton pattern - Vault-Tec approved resource management
-     */
     public static MinigameService getInstance() {
         if (instance == null) {
             instance = new MinigameService();
@@ -29,12 +21,7 @@ public class MinigameService {
         return instance;
     }
 
-    /**
-     * Initialize with minigames
-     * Vault-Tec recommends: Always have sample data for demonstration purposes!
-     */
     private void initializeExampleMinigames() {
-        // Game 1: Plus ou Moins (Implemented per specification)
         minigames.add(
             new Minigame(
                 "plus-ou-moins",
@@ -51,8 +38,6 @@ public class MinigameService {
                 "/images/placeholders/true-or-false-placeholder.png"
             )
         );
-
-        // Game 3: Snake (Implemented per specification)
         minigames.add(
             new Minigame(
                 "snake",
@@ -63,8 +48,6 @@ public class MinigameService {
                 "/images/placeholders/snake-placeholder.png"
             )
         );
-
-        // Game 4: Blackjack (Implemented per specification)
         minigames.add(
             new Minigame(
                 "blackjack",
@@ -78,16 +61,10 @@ public class MinigameService {
         );
     }
 
-    /**
-     * Get all available minigames
-     */
     public ObservableList<Minigame> getAllMinigames() {
         return minigames;
     }
 
-    /**
-     * Get a minigame by ID
-     */
     public Minigame getMinigameById(String id) {
         return minigames
             .stream()
@@ -96,16 +73,10 @@ public class MinigameService {
             .orElse(null);
     }
 
-    /**
-     * Add a new minigame (for dynamic expansion)
-     */
     public void addMinigame(Minigame minigame) {
         minigames.add(minigame);
     }
 
-    /**
-     * Get minigame count
-     */
     public int getMinigameCount() {
         return minigames.size();
     }
